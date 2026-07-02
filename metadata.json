@@ -1,0 +1,6 @@
+{
+  "name": "KARYA Atyrau",
+  "description": "Премиальный онлайн-шоурум фирменного бутика кожгалантереи KARYA в Атырау. Натуральная кожа, Kaspi Red и Рассрочка, доставка в день заказа.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
