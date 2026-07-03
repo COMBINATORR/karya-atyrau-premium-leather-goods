@@ -143,6 +143,7 @@ export default function Reviews() {
                   <input
                     type="text"
                     required
+                    maxLength={50}
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Например, Асель С."
@@ -156,6 +157,7 @@ export default function Reviews() {
                   </label>
                   <input
                     type="text"
+                    maxLength={100}
                     value={district}
                     onChange={(e) => setDistrict(e.target.value)}
                     placeholder="Например, мкр. Привокзальный"
@@ -212,6 +214,7 @@ export default function Reviews() {
                   <textarea
                     required
                     rows={4}
+                    maxLength={1000}
                     value={text}
                     onChange={(e) => setText(e.target.value)}
                     placeholder="Напишите, что вам понравилось больше всего (качество кожи, швы, работа застежек, скорость доставки курьера...)"

@@ -143,6 +143,7 @@ export default function OrderModal({ product, onClose, onWhatsAppClick }: OrderM
                 <input
                   type="text"
                   required
+                  maxLength={50}
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Например, Марат И."
@@ -157,6 +158,7 @@ export default function OrderModal({ product, onClose, onWhatsAppClick }: OrderM
                 <input
                   type="tel"
                   required
+                  maxLength={20}
                   value={phone}
                   onChange={(e) => handlePhoneInput(e.target.value)}
                   placeholder="+7 (701) 555-55-55"
