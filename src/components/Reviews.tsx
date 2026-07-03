@@ -183,16 +183,19 @@ export default function Reviews() {
 
                 {/* Stars Rating selection */}
                 <div>
-                  <label className="block text-[10px] font-mono uppercase tracking-wider text-gray-400 mb-1.5">
+                  <label id="rating-label" className="block text-[10px] font-mono uppercase tracking-wider text-gray-400 mb-1.5">
                     Ваша оценка *
                   </label>
-                  <div className="flex gap-2">
+                  <div role="radiogroup" aria-labelledby="rating-label" className="flex gap-2">
                     {[1, 2, 3, 4, 5].map((star) => (
                       <button
                         key={star}
                         type="button"
+                        role="radio"
+                        aria-checked={star === rating}
+                        aria-label={`Оценка ${star} из 5`}
                         onClick={() => setRating(star)}
-                        className="text-2xl transition-transform hover:scale-110 focus:outline-none cursor-pointer"
+                        className="text-2xl transition-transform hover:scale-110 focus:outline-none focus-visible:outline-2 focus-visible:outline-[#C5A059] focus-visible:outline-offset-2 rounded-sm cursor-pointer"
                       >
                         <Star
                           size={24}
