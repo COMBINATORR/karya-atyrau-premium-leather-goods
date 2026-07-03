@@ -59,7 +59,7 @@ export default function Catalog({ onOrderClick, onWhatsAppClick }: CatalogProps)
                 setSelectedGender('for_her');
                 setSelectedType('all');
               }}
-              className={`pb-4 text-sm sm:text-base font-medium tracking-wider uppercase font-sans border-b-2 transition-all cursor-pointer ${
+              className={`pb-4 text-sm sm:text-base font-medium tracking-wider uppercase font-sans border-b-2 transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-offset-2 ${
                 selectedGender === 'for_her'
                   ? 'border-[#A82025] text-[#A82025] font-semibold'
                   : 'border-transparent text-gray-400 hover:text-[#121212]'
@@ -72,7 +72,7 @@ export default function Catalog({ onOrderClick, onWhatsAppClick }: CatalogProps)
                 setSelectedGender('for_him');
                 setSelectedType('all');
               }}
-              className={`pb-4 text-sm sm:text-base font-medium tracking-wider uppercase font-sans border-b-2 transition-all cursor-pointer ${
+              className={`pb-4 text-sm sm:text-base font-medium tracking-wider uppercase font-sans border-b-2 transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-offset-2 ${
                 selectedGender === 'for_him'
                   ? 'border-[#A82025] text-[#A82025] font-semibold'
                   : 'border-transparent text-gray-400 hover:text-[#121212]'
@@ -89,7 +89,7 @@ export default function Catalog({ onOrderClick, onWhatsAppClick }: CatalogProps)
             <button
               key={type.value}
               onClick={() => setSelectedType(type.value)}
-              className={`px-4 py-2 text-xs font-mono border transition-all cursor-pointer ${
+              className={`px-4 py-2 text-xs font-mono border transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-offset-2 ${
                 selectedType === type.value
                   ? 'bg-[#121212] border-[#121212] text-white'
                   : 'bg-white border-[#F5EFEB] text-gray-600 hover:border-gray-400'
@@ -132,15 +132,17 @@ export default function Catalog({ onOrderClick, onWhatsAppClick }: CatalogProps)
                   <div className="absolute inset-0 bg-[#121212]/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
                     <button
                       onClick={() => onOrderClick(product)}
-                      className="bg-white text-[#121212] hover:bg-[#A82025] hover:text-white p-3 shadow-md transition-colors cursor-pointer"
+                      className="bg-white text-[#121212] hover:bg-[#A82025] hover:text-white p-3 shadow-md transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-offset-2"
                       title="Заказать в 1 клик"
+                      aria-label="Быстрый просмотр и заказ"
                     >
                       <Eye size={18} />
                     </button>
                     <button
                       onClick={() => handleVideoRequest(product)}
-                      className="bg-[#25D366] text-white hover:bg-[#128C7E] p-3 shadow-md transition-colors cursor-pointer"
+                      className="bg-[#25D366] text-white hover:bg-[#128C7E] p-3 shadow-md transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-offset-2"
                       title="Запросить живое видео в WhatsApp"
+                      aria-label="Запросить живое видео товара в WhatsApp"
                     >
                       <Smartphone size={18} />
                     </button>

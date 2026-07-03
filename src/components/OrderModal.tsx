@@ -58,7 +58,7 @@ export default function OrderModal({ product, onClose, onWhatsAppClick }: OrderM
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-1.5 text-gray-400 hover:text-[#121212] transition-colors cursor-pointer z-10"
+          className="absolute top-4 right-4 p-1.5 text-gray-400 hover:text-[#121212] transition-colors cursor-pointer z-10 focus-visible:ring-2 focus-visible:ring-[#C5A059]"
           aria-label="Закрыть модальное окно"
         >
           <X size={20} />
@@ -137,30 +137,32 @@ export default function OrderModal({ product, onClose, onWhatsAppClick }: OrderM
             {/* Inputs */}
             <div className="space-y-3.5">
               <div>
-                <label className="block text-[10px] font-mono uppercase tracking-wider text-gray-500 mb-1 font-semibold">
+                <label htmlFor="name" className="block text-[10px] font-mono uppercase tracking-wider text-gray-500 mb-1 font-semibold">
                   Ваше имя *
                 </label>
                 <input
+                  id="name"
                   type="text"
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Например, Марат И."
-                  className="w-full bg-white border border-gray-200 py-2.5 px-3 text-xs text-[#121212] focus:outline-none focus:border-[#C5A059] font-sans"
+                  className="w-full bg-white border border-gray-200 py-2.5 px-3 text-xs text-[#121212] focus:outline-none focus:border-[#C5A059] focus-visible:ring-2 focus-visible:ring-[#C5A059] font-sans"
                 />
               </div>
 
               <div>
-                <label className="block text-[10px] font-mono uppercase tracking-wider text-gray-500 mb-1 font-semibold">
+                <label htmlFor="phone" className="block text-[10px] font-mono uppercase tracking-wider text-gray-500 mb-1 font-semibold">
                   Номер телефона (WhatsApp) *
                 </label>
                 <input
+                  id="phone"
                   type="tel"
                   required
                   value={phone}
                   onChange={(e) => handlePhoneInput(e.target.value)}
                   placeholder="+7 (701) 555-55-55"
-                  className="w-full bg-white border border-gray-200 py-2.5 px-3 text-xs text-[#121212] focus:outline-none focus:border-[#C5A059] font-mono"
+                  className="w-full bg-white border border-gray-200 py-2.5 px-3 text-xs text-[#121212] focus:outline-none focus:border-[#C5A059] focus-visible:ring-2 focus-visible:ring-[#C5A059] font-mono"
                 />
               </div>
             </div>
