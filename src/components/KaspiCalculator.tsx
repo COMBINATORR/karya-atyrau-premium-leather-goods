@@ -157,6 +157,7 @@ export default function KaspiCalculator({ onWhatsAppClick }: KaspiCalculatorProp
                   </label>
                   <input
                     type="text"
+                    maxLength={20}
                     value={amount === 0 ? '' : amount.toLocaleString('ru-RU')}
                     onChange={(e) => handleAmountInput(e.target.value)}
                     className="bg-transparent text-right font-mono font-bold text-lg text-[#C5A059] focus:outline-none w-32 border-b border-white/10 pb-0.5"
