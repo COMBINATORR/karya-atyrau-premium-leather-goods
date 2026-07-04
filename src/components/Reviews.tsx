@@ -137,10 +137,11 @@ export default function Reviews() {
                 )}
 
                 <div>
-                  <label className="block text-[10px] font-mono uppercase tracking-wider text-gray-400 mb-1">
+                  <label htmlFor="name" className="block text-[10px] font-mono uppercase tracking-wider text-gray-400 mb-1">
                     Ваше имя *
                   </label>
                   <input
+                    id="name"
                     type="text"
                     required
                     maxLength={50}
@@ -152,10 +153,11 @@ export default function Reviews() {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-mono uppercase tracking-wider text-gray-400 mb-1">
+                  <label htmlFor="district" className="block text-[10px] font-mono uppercase tracking-wider text-gray-400 mb-1">
                     Район проживания в Атырау / город
                   </label>
                   <input
+                    id="district"
                     type="text"
                     maxLength={100}
                     value={district}

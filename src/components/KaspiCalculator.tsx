@@ -152,10 +152,11 @@ export default function KaspiCalculator({ onWhatsAppClick }: KaspiCalculatorProp
               {/* Amount slider */}
               <div className="mb-6">
                 <div className="flex justify-between items-baseline mb-2">
-                  <label className="text-[10px] font-mono uppercase tracking-wider text-gray-400">
+                  <label htmlFor="amount-input" className="text-[10px] font-mono uppercase tracking-wider text-gray-400">
                     Сумма покупки:
                   </label>
                   <input
+                    id="amount-input"
                     type="text"
                     maxLength={20}
                     value={amount === 0 ? '' : amount.toLocaleString('ru-RU')}
