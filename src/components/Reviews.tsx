@@ -13,12 +13,12 @@ export default function Reviews() {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    // Security Enhancement: Input validation to prevent malformed/empty reviews
+// Security Enhancement: Input validation to prevent malformed/empty reviews
     const trimmedName = name.trim();
     const trimmedText = text.trim();
     const trimmedDistrict = district.trim();
 
-    if (!trimmedName || trimmedName.length < 2 || trimmedName.length > 50) {
+if (!trimmedName || trimmedName.length < 2 || trimmedName.length > 50) {
       alert('Пожалуйста, введите корректное имя (от 2 до 50 символов).');
       return;
     }
