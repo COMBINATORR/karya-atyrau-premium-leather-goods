@@ -168,10 +168,11 @@ export default function Reviews() {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-mono uppercase tracking-wider text-gray-400 mb-1">
+                  <label htmlFor="productBought" className="block text-[10px] font-mono uppercase tracking-wider text-gray-400 mb-1">
                     Какое изделие приобрели?
                   </label>
                   <select
+                    id="productBought"
                     value={productBought}
                     onChange={(e) => setProductBought(e.target.value)}
                     className="w-full bg-[#121212] border border-white/10 py-2.5 px-3 text-xs text-white focus:outline-none focus:border-[#C5A059] font-sans"
@@ -196,7 +197,8 @@ export default function Reviews() {
                         key={star}
                         type="button"
                         onClick={() => setRating(star)}
-                        className="text-2xl transition-transform hover:scale-110 focus:outline-none cursor-pointer"
+                        aria-label={`Оценить на ${star} звезд${star === 1 ? 'у' : star > 1 && star < 5 ? 'ы' : ''}`}
+                        className="text-2xl transition-transform hover:scale-110 focus:outline-none cursor-pointer focus-visible:ring-2 focus-visible:ring-[#C5A059] rounded-sm"
                       >
                         <Star
                           size={24}
@@ -210,10 +212,11 @@ export default function Reviews() {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-mono uppercase tracking-wider text-gray-400 mb-1">
+                  <label htmlFor="text" className="block text-[10px] font-mono uppercase tracking-wider text-gray-400 mb-1">
                     Текст отзыва *
                   </label>
                   <textarea
+                    id="text"
                     required
                     rows={4}
                     maxLength={1000}
