@@ -1,4 +1,4 @@
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useEffect } from 'react';
 import { Product } from '../data';
 import { X, CheckCircle, Truck, CreditCard, ShoppingBag, Send } from 'lucide-react';
 
@@ -50,10 +50,30 @@ export default function OrderModal({ product, onClose, onWhatsAppClick }: OrderM
     }, 1200);
   };
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs"
+      onClick={onClose}
+    >
       {/* Modal Card */}
-      <div className="bg-[#FBF9F6] border border-[#C5A059]/30 shadow-2xl w-full max-w-lg relative">
+      <div
+        className="bg-[#FBF9F6] border border-[#C5A059]/30 shadow-2xl w-full max-w-lg relative"
+        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
+      >
         
         {/* Close Button */}
         <button
@@ -68,7 +88,7 @@ export default function OrderModal({ product, onClose, onWhatsAppClick }: OrderM
         <div className="bg-[#121212] text-white p-5 text-left flex items-center gap-3">
           <ShoppingBag className="text-[#C5A059] shrink-0" size={20} />
           <div>
-            <h3 className="font-serif text-base uppercase tracking-widest text-[#C5A059] font-bold">
+            <h3 id="modal-title" className="font-serif text-base uppercase tracking-widest text-[#C5A059] font-bold">
               Быстрый заказ в 1 клик
             </h3>
             <p className="text-[10px] text-gray-400 font-mono">ФИРМЕННЫЙ БУТИК KARYA АТЫРАУ</p>

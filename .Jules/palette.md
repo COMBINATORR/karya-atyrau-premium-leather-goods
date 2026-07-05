@@ -5,3 +5,6 @@
 ## 2025-03-05 - Missing form label associations
 **Learning:** Found multiple instances where form inputs were missing `id` and `htmlFor` attributes in React components, which harms screen reader accessibility and prevents users from clicking labels to focus inputs.
 **Action:** Always ensure every form input has a unique `id` and its corresponding `<label>` uses `htmlFor={id}`.
+## 2026-07-05 - Escape Key and Overlay Click for Modals
+**Learning:** It is crucial for usability and accessibility to provide users alternative ways to dismiss modal dialogs, beyond just a close button. Adding an Escape key listener and backdrop click handler greatly improves navigation flow.
+**Action:** Always include keyboard exit paths (Escape key) and overlay click-to-close behavior for any modal component, alongside standard ARIA dialog attributes.
