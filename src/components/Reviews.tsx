@@ -13,15 +13,21 @@ export default function Reviews() {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (!name || !text) return;
+
+    // Security: trim input to prevent empty or whitespace-only submissions
+    const trimmedName = name.trim();
+    const trimmedText = text.trim();
+    const trimmedDistrict = district.trim();
+
+    if (!trimmedName || !trimmedText) return;
 
     const newReview: Review = {
       id: `rev-user-${Date.now()}`,
-      name,
-      city: `${district}, Атырау`,
+      name: trimmedName,
+      city: trimmedDistrict ? `${trimmedDistrict}, Атырау` : 'Атырау',
       date: 'Сегодня',
       rating,
-      text,
+      text: trimmedText,
       productBought,
       avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=150&auto=format&fit=crop' // default user avatar
     };

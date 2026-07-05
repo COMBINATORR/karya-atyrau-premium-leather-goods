@@ -24,7 +24,15 @@ export default function OrderModal({ product, onClose, onWhatsAppClick }: OrderM
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (!name || !phone) return;
+
+    // Security: trim input and validate phone format to prevent malformed/malicious input
+    const trimmedName = name.trim();
+    const trimmedPhone = phone.trim();
+    const phoneRegex = /^\+?[0-9\s\-\(\)]+$/;
+
+    if (!trimmedName || !trimmedPhone || !phoneRegex.test(trimmedPhone)) {
+      return;
+    }
 
     // Trigger WhatsApp notification for the boutique backend
     const deliveryLabel = deliveryType === 'express' ? 'Экспресс-доставка курьером (1 час)' : 'Самовывоз из ТД Пассаж Насиха';
@@ -35,8 +43,8 @@ export default function OrderModal({ product, onClose, onWhatsAppClick }: OrderM
     const text = `Здравствуйте! Я оформил быстрый заказ на сайте KARYA Атырау.\n\n` +
                  `📦 Товар: ${product.name} (Артикул: ${product.code})\n` +
                  `💰 Цена: ${product.price.toLocaleString('ru-RU')} ₸\n` +
-                 `👤 Клиент: ${name}\n` +
-                 `📞 Телефон: ${phone}\n` +
+                 `👤 Клиент: ${trimmedName}\n` +
+                 `📞 Телефон: ${trimmedPhone}\n` +
                  `🚚 Доставка: ${deliveryLabel}\n` +
                  `💳 Оплата: ${paymentLabel}\n\n` +
                  `Пожалуйста, отправьте мне живое видео изделия и подтвердите доставку.`;
