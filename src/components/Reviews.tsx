@@ -13,10 +13,10 @@ export default function Reviews() {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-
     // Security Enhancement: Input validation to prevent malformed/empty reviews
     const trimmedName = name.trim();
     const trimmedText = text.trim();
+    const trimmedDistrict = district.trim();
 
     if (!trimmedName || trimmedName.length < 2 || trimmedName.length > 50) {
       alert('Пожалуйста, введите корректное имя (от 2 до 50 символов).');
@@ -30,11 +30,11 @@ export default function Reviews() {
 
     const newReview: Review = {
       id: `rev-user-${Date.now()}`,
-      name,
-      city: `${district}, Атырау`,
+      name: trimmedName,
+      city: trimmedDistrict ? `${trimmedDistrict}, Атырау` : 'Атырау',
       date: 'Сегодня',
       rating,
-      text,
+      text: trimmedText,
       productBought,
       avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=150&auto=format&fit=crop' // default user avatar
     };
@@ -150,10 +150,11 @@ export default function Reviews() {
                 )}
 
                 <div>
-                  <label className="block text-[10px] font-mono uppercase tracking-wider text-gray-400 mb-1">
+                  <label htmlFor="name" className="block text-[10px] font-mono uppercase tracking-wider text-gray-400 mb-1">
                     Ваше имя *
                   </label>
                   <input
+                    id="name"
                     type="text"
                     required
                     maxLength={50}
@@ -165,10 +166,11 @@ export default function Reviews() {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-mono uppercase tracking-wider text-gray-400 mb-1">
+                  <label htmlFor="district" className="block text-[10px] font-mono uppercase tracking-wider text-gray-400 mb-1">
                     Район проживания в Атырау / город
                   </label>
                   <input
+                    id="district"
                     type="text"
                     maxLength={100}
                     value={district}
@@ -179,10 +181,11 @@ export default function Reviews() {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-mono uppercase tracking-wider text-gray-400 mb-1">
+                  <label htmlFor="productBought" className="block text-[10px] font-mono uppercase tracking-wider text-gray-400 mb-1">
                     Какое изделие приобрели?
                   </label>
                   <select
+                    id="productBought"
                     value={productBought}
                     onChange={(e) => setProductBought(e.target.value)}
                     className="w-full bg-[#121212] border border-white/10 py-2.5 px-3 text-xs text-white focus:outline-none focus:border-[#C5A059] font-sans"
@@ -207,7 +210,8 @@ export default function Reviews() {
                         key={star}
                         type="button"
                         onClick={() => setRating(star)}
-                        className="text-2xl transition-transform hover:scale-110 focus:outline-none cursor-pointer"
+                        aria-label={`Оценить на ${star} звезд${star === 1 ? 'у' : star > 1 && star < 5 ? 'ы' : ''}`}
+                        className="text-2xl transition-transform hover:scale-110 focus:outline-none cursor-pointer focus-visible:ring-2 focus-visible:ring-[#C5A059] rounded-sm"
                       >
                         <Star
                           size={24}
@@ -221,10 +225,11 @@ export default function Reviews() {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-mono uppercase tracking-wider text-gray-400 mb-1">
+                  <label htmlFor="text" className="block text-[10px] font-mono uppercase tracking-wider text-gray-400 mb-1">
                     Текст отзыва *
                   </label>
                   <textarea
+                    id="text"
                     required
                     rows={4}
                     maxLength={1000}

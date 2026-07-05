@@ -130,10 +130,11 @@ export default function KaspiCalculator({ onWhatsAppClick }: KaspiCalculatorProp
 
               {/* Product selector to ease calculations */}
               <div className="mb-6">
-                <label className="block text-left text-[10px] font-mono uppercase tracking-wider text-gray-400 mb-2">
+                <label htmlFor="product" className="block text-left text-[10px] font-mono uppercase tracking-wider text-gray-400 mb-2">
                   Выберите изделие для расчета:
                 </label>
                 <select
+                  id="product"
                   value={selectedProductId}
                   onChange={(e) => handleProductSelect(e.target.value)}
                   className="w-full bg-white/5 border border-white/20 text-white py-3 px-4 text-xs focus:outline-none focus:border-[#C5A059] font-sans"
@@ -152,10 +153,11 @@ export default function KaspiCalculator({ onWhatsAppClick }: KaspiCalculatorProp
               {/* Amount slider */}
               <div className="mb-6">
                 <div className="flex justify-between items-baseline mb-2">
-                  <label className="text-[10px] font-mono uppercase tracking-wider text-gray-400">
+                  <label htmlFor="amount-input" className="text-[10px] font-mono uppercase tracking-wider text-gray-400">
                     Сумма покупки:
                   </label>
                   <input
+                    id="amount-input"
                     type="text"
                     maxLength={20}
                     value={amount === 0 ? '' : amount.toLocaleString('ru-RU')}
