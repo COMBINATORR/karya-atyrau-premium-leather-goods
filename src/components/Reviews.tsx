@@ -13,7 +13,20 @@ export default function Reviews() {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (!name || !text) return;
+
+    // Security Enhancement: Input validation to prevent malformed/empty reviews
+    const trimmedName = name.trim();
+    const trimmedText = text.trim();
+
+    if (!trimmedName || trimmedName.length < 2 || trimmedName.length > 50) {
+      alert('Пожалуйста, введите корректное имя (от 2 до 50 символов).');
+      return;
+    }
+
+    if (!trimmedText || trimmedText.length < 5 || trimmedText.length > 1000) {
+      alert('Текст отзыва должен содержать от 5 до 1000 символов.');
+      return;
+    }
 
     const newReview: Review = {
       id: `rev-user-${Date.now()}`,
