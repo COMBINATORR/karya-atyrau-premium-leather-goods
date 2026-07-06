@@ -19,7 +19,10 @@ export default function Reviews() {
     const trimmedText = text.trim();
     const trimmedDistrict = district.trim();
 
-    if (!trimmedName || !trimmedText) return;
+    // Security: enforce input length limits programmatically (maxLength in HTML can be bypassed)
+    if (!trimmedName || trimmedName.length > 50) return;
+    if (!trimmedText || trimmedText.length > 1000) return;
+    if (trimmedDistrict.length > 100) return;
 
     const newReview: Review = {
       id: `rev-user-${Date.now()}`,

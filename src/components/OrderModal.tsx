@@ -30,7 +30,9 @@ export default function OrderModal({ product, onClose, onWhatsAppClick }: OrderM
     const trimmedPhone = phone.trim();
     const phoneRegex = /^\+?[0-9\s\-\(\)]+$/;
 
-    if (!trimmedName || !trimmedPhone || !phoneRegex.test(trimmedPhone)) {
+    // Security: enforce input length limits programmatically (maxLength in HTML can be bypassed)
+    if (!trimmedName || trimmedName.length > 50) return;
+    if (!trimmedPhone || trimmedPhone.length > 20 || !phoneRegex.test(trimmedPhone)) {
       return;
     }
 
