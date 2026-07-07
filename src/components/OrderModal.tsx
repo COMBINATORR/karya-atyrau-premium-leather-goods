@@ -1,4 +1,4 @@
-import { useState, FormEvent } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { Product } from '../data';
 import { X, CheckCircle, Truck, CreditCard, ShoppingBag, Send } from 'lucide-react';
 
@@ -14,6 +14,16 @@ export default function OrderModal({ product, onClose, onWhatsAppClick }: OrderM
   const [deliveryType, setDeliveryType] = useState<'express' | 'pickup'>('express');
   const [paymentType, setPaymentType] = useState<'kaspi_red' | 'kaspi_qr' | 'cash'>('kaspi_red');
   const [isSuccess, setIsSuccess] = useState(false);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
 
   if (!product) return null;
 
@@ -179,14 +189,16 @@ export default function OrderModal({ product, onClose, onWhatsAppClick }: OrderM
 
             {/* Delivery Toggle */}
             <div>
-              <label className="block text-[10px] font-mono uppercase tracking-wider text-gray-500 mb-2 font-semibold flex items-center gap-1">
+              <label id="delivery-label" className="block text-[10px] font-mono uppercase tracking-wider text-gray-500 mb-2 font-semibold flex items-center gap-1">
                 <Truck size={12} className="text-[#C5A059]" /> Способ доставки:
               </label>
-              <div className="grid grid-cols-2 gap-3">
+              <div role="radiogroup" aria-labelledby="delivery-label" className="grid grid-cols-2 gap-3">
                 <button
                   type="button"
+                  role="radio"
+                  aria-checked={deliveryType === 'express'}
                   onClick={() => setDeliveryType('express')}
-                  className={`py-3 text-center border text-[10px] sm:text-xs font-sans font-medium transition-all cursor-pointer ${
+                  className={`py-3 text-center border text-[10px] sm:text-xs font-sans font-medium transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#C5A059] ${
                     deliveryType === 'express'
                       ? 'bg-[#121212] text-white border-[#121212] font-semibold'
                       : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'
@@ -197,8 +209,10 @@ export default function OrderModal({ product, onClose, onWhatsAppClick }: OrderM
                 </button>
                 <button
                   type="button"
+                  role="radio"
+                  aria-checked={deliveryType === 'pickup'}
                   onClick={() => setDeliveryType('pickup')}
-                  className={`py-3 text-center border text-[10px] sm:text-xs font-sans font-medium transition-all cursor-pointer ${
+                  className={`py-3 text-center border text-[10px] sm:text-xs font-sans font-medium transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#C5A059] ${
                     deliveryType === 'pickup'
                       ? 'bg-[#121212] text-white border-[#121212] font-semibold'
                       : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'
@@ -212,14 +226,16 @@ export default function OrderModal({ product, onClose, onWhatsAppClick }: OrderM
 
             {/* Payment Method */}
             <div>
-              <label className="block text-[10px] font-mono uppercase tracking-wider text-gray-500 mb-2 font-semibold flex items-center gap-1">
+              <label id="payment-label" className="block text-[10px] font-mono uppercase tracking-wider text-gray-500 mb-2 font-semibold flex items-center gap-1">
                 <CreditCard size={12} className="text-[#C5A059]" /> Способ оплаты:
               </label>
-              <div className="grid grid-cols-3 gap-2">
+              <div role="radiogroup" aria-labelledby="payment-label" className="grid grid-cols-3 gap-2">
                 <button
                   type="button"
+                  role="radio"
+                  aria-checked={paymentType === 'kaspi_red'}
                   onClick={() => setPaymentType('kaspi_red')}
-                  className={`py-3 text-center border text-[9px] sm:text-xs font-sans font-medium transition-all cursor-pointer ${
+                  className={`py-3 text-center border text-[9px] sm:text-xs font-sans font-medium transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#C5A059] ${
                     paymentType === 'kaspi_red'
                       ? 'bg-[#A82025] text-white border-[#A82025] font-bold'
                       : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'
@@ -230,8 +246,10 @@ export default function OrderModal({ product, onClose, onWhatsAppClick }: OrderM
                 </button>
                 <button
                   type="button"
+                  role="radio"
+                  aria-checked={paymentType === 'kaspi_qr'}
                   onClick={() => setPaymentType('kaspi_qr')}
-                  className={`py-3 text-center border text-[9px] sm:text-xs font-sans font-medium transition-all cursor-pointer ${
+                  className={`py-3 text-center border text-[9px] sm:text-xs font-sans font-medium transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#C5A059] ${
                     paymentType === 'kaspi_qr'
                       ? 'bg-[#121212] text-white border-[#121212] font-bold'
                       : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'
@@ -242,8 +260,10 @@ export default function OrderModal({ product, onClose, onWhatsAppClick }: OrderM
                 </button>
                 <button
                   type="button"
+                  role="radio"
+                  aria-checked={paymentType === 'cash'}
                   onClick={() => setPaymentType('cash')}
-                  className={`py-3 text-center border text-[9px] sm:text-xs font-sans font-medium transition-all cursor-pointer ${
+                  className={`py-3 text-center border text-[9px] sm:text-xs font-sans font-medium transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#C5A059] ${
                     paymentType === 'cash'
                       ? 'bg-[#121212] text-white border-[#121212] font-bold'
                       : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'

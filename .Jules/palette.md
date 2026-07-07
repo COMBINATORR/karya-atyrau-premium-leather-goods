@@ -9,3 +9,7 @@
 ## 2025-07-05 - Pluralizing ARIA labels in Russian
 **Learning:** When adding ARIA labels for dynamic values in Russian (like star ratings), pluralization rules must be handled correctly (e.g., 1 звезду, 2-4 звезды, 5 звезд) to provide a natural experience for screen reader users.
 **Action:** Use a helper function or inline ternary logic `star === 1 ? 'у' : star > 1 && star < 5 ? 'ы' : ''` when generating Russian ARIA labels for numeric ratings.
+
+## 2025-07-07 - Accessibility of Custom Toggle Button Groups
+**Learning:** Using simple `<button>` elements for selectable lists like payment/delivery options lacks semantics for screen readers. Using `role="radiogroup"`, `role="radio"`, and `aria-checked` accurately reflects the UX to assistive technology.
+**Action:** When implementing custom toggleable list options, explicitly manage `aria-checked` states and wrap them in a `role="radiogroup"` mapped to a visible label using `aria-labelledby`.
