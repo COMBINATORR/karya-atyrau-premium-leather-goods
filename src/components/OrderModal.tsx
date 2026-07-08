@@ -186,6 +186,7 @@ export default function OrderModal({ product, onClose, onWhatsAppClick }: OrderM
                 <button
                   type="button"
                   onClick={() => setDeliveryType('express')}
+                  aria-pressed={deliveryType === 'express'}
                   className={`py-3 text-center border text-[10px] sm:text-xs font-sans font-medium transition-all cursor-pointer ${
                     deliveryType === 'express'
                       ? 'bg-[#121212] text-white border-[#121212] font-semibold'
@@ -198,6 +199,7 @@ export default function OrderModal({ product, onClose, onWhatsAppClick }: OrderM
                 <button
                   type="button"
                   onClick={() => setDeliveryType('pickup')}
+                  aria-pressed={deliveryType === 'pickup'}
                   className={`py-3 text-center border text-[10px] sm:text-xs font-sans font-medium transition-all cursor-pointer ${
                     deliveryType === 'pickup'
                       ? 'bg-[#121212] text-white border-[#121212] font-semibold'
@@ -219,6 +221,7 @@ export default function OrderModal({ product, onClose, onWhatsAppClick }: OrderM
                 <button
                   type="button"
                   onClick={() => setPaymentType('kaspi_red')}
+                  aria-pressed={paymentType === 'kaspi_red'}
                   className={`py-3 text-center border text-[9px] sm:text-xs font-sans font-medium transition-all cursor-pointer ${
                     paymentType === 'kaspi_red'
                       ? 'bg-[#A82025] text-white border-[#A82025] font-bold'
@@ -231,6 +234,7 @@ export default function OrderModal({ product, onClose, onWhatsAppClick }: OrderM
                 <button
                   type="button"
                   onClick={() => setPaymentType('kaspi_qr')}
+                  aria-pressed={paymentType === 'kaspi_qr'}
                   className={`py-3 text-center border text-[9px] sm:text-xs font-sans font-medium transition-all cursor-pointer ${
                     paymentType === 'kaspi_qr'
                       ? 'bg-[#121212] text-white border-[#121212] font-bold'
@@ -243,6 +247,7 @@ export default function OrderModal({ product, onClose, onWhatsAppClick }: OrderM
                 <button
                   type="button"
                   onClick={() => setPaymentType('cash')}
+                  aria-pressed={paymentType === 'cash'}
                   className={`py-3 text-center border text-[9px] sm:text-xs font-sans font-medium transition-all cursor-pointer ${
                     paymentType === 'cash'
                       ? 'bg-[#121212] text-white border-[#121212] font-bold'

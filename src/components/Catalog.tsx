@@ -59,6 +59,7 @@ export default function Catalog({ onOrderClick, onWhatsAppClick }: CatalogProps)
                 setSelectedGender('for_her');
                 setSelectedType('all');
               }}
+              aria-pressed={selectedGender === 'for_her'}
               className={`pb-4 text-sm sm:text-base font-medium tracking-wider uppercase font-sans border-b-2 transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-offset-2 ${
                 selectedGender === 'for_her'
                   ? 'border-[#A82025] text-[#A82025] font-semibold'
@@ -72,6 +73,7 @@ export default function Catalog({ onOrderClick, onWhatsAppClick }: CatalogProps)
                 setSelectedGender('for_him');
                 setSelectedType('all');
               }}
+              aria-pressed={selectedGender === 'for_him'}
               className={`pb-4 text-sm sm:text-base font-medium tracking-wider uppercase font-sans border-b-2 transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-offset-2 ${
                 selectedGender === 'for_him'
                   ? 'border-[#A82025] text-[#A82025] font-semibold'
@@ -89,6 +91,7 @@ export default function Catalog({ onOrderClick, onWhatsAppClick }: CatalogProps)
             <button
               key={type.value}
               onClick={() => setSelectedType(type.value)}
+              aria-pressed={selectedType === type.value}
               className={`px-4 py-2 text-xs font-mono border transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-offset-2 ${
                 selectedType === type.value
                   ? 'bg-[#121212] border-[#121212] text-white'
