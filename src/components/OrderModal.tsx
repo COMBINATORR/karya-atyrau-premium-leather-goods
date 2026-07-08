@@ -1,4 +1,4 @@
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useId } from 'react';
 import { Product } from '../data';
 import { X, CheckCircle, Truck, CreditCard, ShoppingBag, Send } from 'lucide-react';
 
@@ -9,6 +9,8 @@ interface OrderModalProps {
 }
 
 export default function OrderModal({ product, onClose, onWhatsAppClick }: OrderModalProps) {
+  const deliveryLabelId = useId();
+  const paymentLabelId = useId();
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [deliveryType, setDeliveryType] = useState<'express' | 'pickup'>('express');
@@ -180,15 +182,17 @@ export default function OrderModal({ product, onClose, onWhatsAppClick }: OrderM
             </div>
 
             {/* Delivery Toggle */}
-            <div>
-              <label className="block text-[10px] font-mono uppercase tracking-wider text-gray-500 mb-2 font-semibold flex items-center gap-1">
+            <div role="radiogroup" aria-labelledby={deliveryLabelId}>
+              <span id={deliveryLabelId} className="block text-[10px] font-mono uppercase tracking-wider text-gray-500 mb-2 font-semibold flex items-center gap-1">
                 <Truck size={12} className="text-[#C5A059]" /> Способ доставки:
-              </label>
+              </span>
               <div className="grid grid-cols-2 gap-3">
                 <button
                   type="button"
+                  role="radio"
+                  aria-checked={deliveryType === 'express'}
                   onClick={() => setDeliveryType('express')}
-                  className={`py-3 text-center border text-[10px] sm:text-xs font-sans font-medium transition-all cursor-pointer ${
+                  className={`py-3 text-center border text-[10px] sm:text-xs font-sans font-medium transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C5A059] ${
                     deliveryType === 'express'
                       ? 'bg-[#121212] text-white border-[#121212] font-semibold'
                       : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'
@@ -199,8 +203,10 @@ export default function OrderModal({ product, onClose, onWhatsAppClick }: OrderM
                 </button>
                 <button
                   type="button"
+                  role="radio"
+                  aria-checked={deliveryType === 'pickup'}
                   onClick={() => setDeliveryType('pickup')}
-                  className={`py-3 text-center border text-[10px] sm:text-xs font-sans font-medium transition-all cursor-pointer ${
+                  className={`py-3 text-center border text-[10px] sm:text-xs font-sans font-medium transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C5A059] ${
                     deliveryType === 'pickup'
                       ? 'bg-[#121212] text-white border-[#121212] font-semibold'
                       : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'
@@ -213,15 +219,17 @@ export default function OrderModal({ product, onClose, onWhatsAppClick }: OrderM
             </div>
 
             {/* Payment Method */}
-            <div>
-              <label className="block text-[10px] font-mono uppercase tracking-wider text-gray-500 mb-2 font-semibold flex items-center gap-1">
+            <div role="radiogroup" aria-labelledby={paymentLabelId}>
+              <span id={paymentLabelId} className="block text-[10px] font-mono uppercase tracking-wider text-gray-500 mb-2 font-semibold flex items-center gap-1">
                 <CreditCard size={12} className="text-[#C5A059]" /> Способ оплаты:
-              </label>
+              </span>
               <div className="grid grid-cols-3 gap-2">
                 <button
                   type="button"
+                  role="radio"
+                  aria-checked={paymentType === 'kaspi_red'}
                   onClick={() => setPaymentType('kaspi_red')}
-                  className={`py-3 text-center border text-[9px] sm:text-xs font-sans font-medium transition-all cursor-pointer ${
+                  className={`py-3 text-center border text-[9px] sm:text-xs font-sans font-medium transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C5A059] ${
                     paymentType === 'kaspi_red'
                       ? 'bg-[#A82025] text-white border-[#A82025] font-bold'
                       : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'
@@ -232,8 +240,10 @@ export default function OrderModal({ product, onClose, onWhatsAppClick }: OrderM
                 </button>
                 <button
                   type="button"
+                  role="radio"
+                  aria-checked={paymentType === 'kaspi_qr'}
                   onClick={() => setPaymentType('kaspi_qr')}
-                  className={`py-3 text-center border text-[9px] sm:text-xs font-sans font-medium transition-all cursor-pointer ${
+                  className={`py-3 text-center border text-[9px] sm:text-xs font-sans font-medium transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C5A059] ${
                     paymentType === 'kaspi_qr'
                       ? 'bg-[#121212] text-white border-[#121212] font-bold'
                       : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'
@@ -244,8 +254,10 @@ export default function OrderModal({ product, onClose, onWhatsAppClick }: OrderM
                 </button>
                 <button
                   type="button"
+                  role="radio"
+                  aria-checked={paymentType === 'cash'}
                   onClick={() => setPaymentType('cash')}
-                  className={`py-3 text-center border text-[9px] sm:text-xs font-sans font-medium transition-all cursor-pointer ${
+                  className={`py-3 text-center border text-[9px] sm:text-xs font-sans font-medium transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C5A059] ${
                     paymentType === 'cash'
                       ? 'bg-[#121212] text-white border-[#121212] font-bold'
                       : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'
