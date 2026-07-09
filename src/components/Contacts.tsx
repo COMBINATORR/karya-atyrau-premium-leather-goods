@@ -112,15 +112,16 @@ export default function Contacts({ onWhatsAppClick }: ContactsProps) {
                   href="https://instagram.com/karya_atyrau"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 bg-[#F5EFEB] hover:bg-[#A82025] hover:text-white text-[#121212] rounded-full flex items-center justify-center transition-colors shadow-sm"
+                  className="w-10 h-10 bg-[#F5EFEB] hover:bg-[#A82025] hover:text-white text-[#121212] rounded-full flex items-center justify-center transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#C5A059]"
                   aria-label="Instagram"
                 >
                   <Instagram size={18} />
                 </a>
                 <button
                   onClick={() => onWhatsAppClick('Здравствуйте! Хочу посмотреть Инстаграм-каталог и заказать живое видео сумки.')}
-                  className="w-10 h-10 bg-[#25D366]/10 hover:bg-[#25D366] hover:text-white text-[#25D366] rounded-full flex items-center justify-center transition-colors shadow-sm cursor-pointer"
+                  className="w-10 h-10 bg-[#25D366]/10 hover:bg-[#25D366] hover:text-white text-[#25D366] rounded-full flex items-center justify-center transition-colors shadow-sm cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#C5A059]"
                   title="WhatsApp"
+                  aria-label="Написать в WhatsApp"
                 >
                   <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
                     <path d="M12.012 2c-5.506 0-9.975 4.47-9.975 9.974 0 1.76.459 3.475 1.33 4.99L2 22l5.176-1.357c1.465.8 3.11 1.22 4.825 1.22 5.507 0 9.976-4.47 9.976-9.973 0-2.653-1.032-5.148-2.91-7.025A9.897 9.897 0 0012.012 2zm5.786 14.126c-.247.697-1.21 1.272-1.683 1.353-.456.077-1.038.14-3.04-.693-2.556-1.062-4.18-3.666-4.305-3.834-.125-.167-.993-1.32-1.002-2.515-.01-1.196.61-1.79.84-2.03.22-.24.5-.3.674-.3.176 0 .352.002.507.01.163.007.382-.064.6.46.223.535.76 1.854.826 1.986.066.133.095.3.007.477s-.15.28-.295.45c-.145.17-.306.38-.435.5-.145.138-.297.288-.127.58.17.292.756 1.25 1.624 2.022.1.09.2.14.3.14.156 0 .285-.067.433-.234.148-.168.613-.715.776-.957.164-.24.32-.2.535-.117.215.083 1.366.643 1.603.762.237.118.393.178.452.28.058.1.058.58-.188 1.277z"/>
@@ -164,7 +165,7 @@ export default function Contacts({ onWhatsAppClick }: ContactsProps) {
               {/* Landmark 1: Hotel Renaissance Atyrau */}
               <button
                 onClick={() => handleMapAction('отеля Renaissance')}
-                className="absolute top-[50px] left-[60px] bg-white border border-gray-300 hover:border-[#C5A059] px-2 py-1.5 rounded-none text-[9px] font-mono shadow-sm hover:shadow-md transition-all z-20 cursor-pointer"
+                className="absolute top-[50px] left-[60px] bg-white border border-gray-300 hover:border-[#C5A059] px-2 py-1.5 rounded-none text-[9px] font-mono shadow-sm hover:shadow-md transition-all z-20 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C5A059]"
               >
                 🏨 Отель Renaissance
               </button>
@@ -172,7 +173,7 @@ export default function Contacts({ onWhatsAppClick }: ContactsProps) {
               {/* Landmark 2: Hotel Marriott */}
               <button
                 onClick={() => handleMapAction('отеля Marriott')}
-                className="absolute top-[30px] left-[250px] bg-white border border-gray-300 hover:border-[#C5A059] px-2 py-1.5 rounded-none text-[9px] font-mono shadow-sm hover:shadow-md transition-all z-20 cursor-pointer"
+                className="absolute top-[30px] left-[250px] bg-white border border-gray-300 hover:border-[#C5A059] px-2 py-1.5 rounded-none text-[9px] font-mono shadow-sm hover:shadow-md transition-all z-20 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C5A059]"
               >
                 🏨 Hotel Marriott
               </button>
@@ -180,7 +181,7 @@ export default function Contacts({ onWhatsAppClick }: ContactsProps) {
               {/* Landmark 3: Атырауский Университет нефти и газа */}
               <button
                 onClick={() => handleMapAction('университета Нефти и Газа')}
-                className="absolute bottom-[40px] left-[240px] bg-white border border-gray-300 hover:border-[#C5A059] px-2 py-1.5 rounded-none text-[9px] font-mono shadow-sm hover:shadow-md transition-all z-20 cursor-pointer"
+                className="absolute bottom-[40px] left-[240px] bg-white border border-gray-300 hover:border-[#C5A059] px-2 py-1.5 rounded-none text-[9px] font-mono shadow-sm hover:shadow-md transition-all z-20 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C5A059]"
               >
                 🎓 Ун-т Нефти и Газа
               </button>
