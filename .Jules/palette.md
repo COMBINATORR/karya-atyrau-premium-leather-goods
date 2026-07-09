@@ -13,3 +13,6 @@
 ## 2025-07-06 - Accessible custom radio button groups
 **Learning:** Found instances where custom radio button alternatives (like clickable buttons for selecting delivery or payment methods) were grouped under a `<label>` element. This is invalid HTML since `<label>` is only for labelling actual input fields. Screen readers won't announce the group properly, and custom buttons lack semantic state (`checked`) without ARIA attributes.
 **Action:** When building custom radio button groups, replace `<label>` wrappers with a `<div>` holding `role="radiogroup"`. Use `aria-labelledby` pointing to an `id` on a descriptive `<span>` for the group title. Ensure child buttons have `role="radio"`, update their `aria-checked` state dynamically, and always provide clear keyboard focus indicators like `focus-visible:ring-2`.
+## 2025-03-05 - Focus Visibility and Icon Buttons
+**Learning:** Found several interactive elements (like custom map landmarks and social icons) that lacked keyboard focus indicators and ARIA labels. Using `focus-visible` classes with brand colors (e.g., `focus-visible:ring-[#C5A059]`) is a clean way to add accessibility without impacting mouse users.
+**Action:** Always check custom interactive elements (not just standard `<button>` tags, but anything functioning as a button or link) for focus indicators and add ARIA labels to any icon-only controls.
