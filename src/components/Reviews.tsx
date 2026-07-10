@@ -221,9 +221,18 @@ export default function Reviews() {
                 </div>
 
                 <div>
-                  <label htmlFor="text" className="block text-[10px] font-mono uppercase tracking-wider text-gray-400 mb-1">
-                    Текст отзыва *
-                  </label>
+                  <div className="flex justify-between items-end mb-1">
+                    <label htmlFor="text" className="block text-[10px] font-mono uppercase tracking-wider text-gray-400">
+                      Текст отзыва *
+                    </label>
+                    <span
+                      id="text-char-count"
+                      aria-live="polite"
+                      className={`text-[9px] font-mono ${text.length >= 950 ? 'text-red-400 font-bold' : 'text-gray-500'}`}
+                    >
+                      {text.length} / 1000
+                    </span>
+                  </div>
                   <textarea
                     id="text"
                     required
@@ -231,6 +240,7 @@ export default function Reviews() {
                     maxLength={1000}
                     value={text}
                     onChange={(e) => setText(e.target.value)}
+                    aria-describedby="text-char-count"
                     placeholder="Напишите, что вам понравилось больше всего (качество кожи, швы, работа застежек, скорость доставки курьера...)"
                     className="w-full bg-white/5 border border-white/10 py-2.5 px-3 text-xs text-white focus:outline-none focus:border-[#C5A059] font-sans resize-none"
                   ></textarea>

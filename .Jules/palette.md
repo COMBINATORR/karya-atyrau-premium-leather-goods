@@ -16,3 +16,6 @@
 ## 2025-03-05 - Focus Visibility and Icon Buttons
 **Learning:** Found several interactive elements (like custom map landmarks and social icons) that lacked keyboard focus indicators and ARIA labels. Using `focus-visible` classes with brand colors (e.g., `focus-visible:ring-[#C5A059]`) is a clean way to add accessibility without impacting mouse users.
 **Action:** Always check custom interactive elements (not just standard `<button>` tags, but anything functioning as a button or link) for focus indicators and add ARIA labels to any icon-only controls.
+## 2024-03-20 - [Accessibility] Character count on textareas
+**Learning:** Adding a character count dynamically via an `aria-live` region provides crucial real-time feedback for screen readers when limits are imposed. Using high contrast (like text-red-400 against a dark background, avoiding standard brand dark reds) is critical for warnings.
+**Action:** Link character counts with `aria-describedby` to the input and use `aria-live="polite"` for non-intrusive updates, ensuring distinct visual contrast for limits.
