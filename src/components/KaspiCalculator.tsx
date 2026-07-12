@@ -185,16 +185,18 @@ export default function KaspiCalculator({ onWhatsAppClick }: KaspiCalculatorProp
               </div>
 
               {/* Term selection */}
-              <div className="mb-8">
-                <label className="block text-left text-[10px] font-mono uppercase tracking-wider text-gray-400 mb-3">
+              <div className="mb-8" role="radiogroup" aria-labelledby="kaspi-term-label">
+                <span id="kaspi-term-label" className="block text-left text-[10px] font-mono uppercase tracking-wider text-gray-400 mb-3">
                   Срок рассрочки:
-                </label>
+                </span>
                 <div className="grid grid-cols-3 gap-3">
                   {[3, 6, 12].map((t) => (
                     <button
                       key={t}
+                      role="radio"
+                      aria-checked={term === t}
                       onClick={() => setTerm(t as any)}
-                      className={`py-3.5 text-xs font-mono border transition-all cursor-pointer ${
+                      className={`py-3.5 text-xs font-mono border transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C5A059] ${
                         term === t
                           ? 'bg-[#A82025] border-[#A82025] text-white font-bold'
                           : 'bg-white/5 border-white/10 text-gray-300 hover:border-white/30'
@@ -224,7 +226,7 @@ export default function KaspiCalculator({ onWhatsAppClick }: KaspiCalculatorProp
               {/* Apply button */}
               <button
                 onClick={handleApply}
-                className="w-full bg-[#A82025] hover:bg-white hover:text-[#121212] text-white py-4 text-xs font-mono tracking-wider uppercase transition-all duration-300 font-bold border-2 border-transparent hover:border-white cursor-pointer"
+                className="w-full bg-[#A82025] hover:bg-white hover:text-[#121212] text-white py-4 text-xs font-mono tracking-wider uppercase transition-all duration-300 font-bold border-2 border-transparent hover:border-white cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C5A059] focus-visible:ring-offset-2 focus-visible:ring-offset-[#121212]"
               >
                 Оформить покупку в рассрочку
               </button>

@@ -16,3 +16,6 @@
 ## 2025-03-05 - Focus Visibility and Icon Buttons
 **Learning:** Found several interactive elements (like custom map landmarks and social icons) that lacked keyboard focus indicators and ARIA labels. Using `focus-visible` classes with brand colors (e.g., `focus-visible:ring-[#C5A059]`) is a clean way to add accessibility without impacting mouse users.
 **Action:** Always check custom interactive elements (not just standard `<button>` tags, but anything functioning as a button or link) for focus indicators and add ARIA labels to any icon-only controls.
+## 2024-07-12 - Accessible custom radio button groups
+**Learning:** Adding semantic attributes (`role="radiogroup"`, `aria-labelledby`, `role="radio"`, `aria-checked`) to custom radio buttons makes them accessible to screen readers, while visual focus outlines (`focus-visible:ring-2`) improve keyboard navigation for everyone. Wrapping radio buttons in `<label>` instead of `<div role="radiogroup">` is invalid HTML.
+**Action:** When building custom radio button selections, always use semantic attributes instead of raw divs/buttons inside labels, and ensure clear `focus-visible` indicators.
