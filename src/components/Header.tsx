@@ -87,6 +87,7 @@ export default function Header({ onNavClick, onWhatsAppClick }: HeaderProps) {
           onClick={() => setIsOpen(!isOpen)}
           className="md:hidden p-2 text-[#121212] hover:text-[#A82025] transition-colors"
           aria-label="Toggle Menu"
+          aria-expanded={isOpen}
         >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>

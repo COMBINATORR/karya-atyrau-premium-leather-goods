@@ -16,3 +16,6 @@
 ## 2025-03-05 - Focus Visibility and Icon Buttons
 **Learning:** Found several interactive elements (like custom map landmarks and social icons) that lacked keyboard focus indicators and ARIA labels. Using `focus-visible` classes with brand colors (e.g., `focus-visible:ring-[#C5A059]`) is a clean way to add accessibility without impacting mouse users.
 **Action:** Always check custom interactive elements (not just standard `<button>` tags, but anything functioning as a button or link) for focus indicators and add ARIA labels to any icon-only controls.
+## 2023-10-27 - Missing aria-expanded on Mobile Menu
+**Learning:** Found a missing `aria-expanded` state on the mobile toggle button. Even though it had an `aria-label`, the dynamic state wasn't communicated to assistive technologies. This is a common pattern to check for when dealing with conditional rendering or toggle interactions.
+**Action:** Always ensure that buttons which control collapsible regions correctly reflect their open/closed state using `aria-expanded`.
