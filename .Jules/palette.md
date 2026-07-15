@@ -16,3 +16,6 @@
 ## 2025-03-05 - Focus Visibility and Icon Buttons
 **Learning:** Found several interactive elements (like custom map landmarks and social icons) that lacked keyboard focus indicators and ARIA labels. Using `focus-visible` classes with brand colors (e.g., `focus-visible:ring-[#C5A059]`) is a clean way to add accessibility without impacting mouse users.
 **Action:** Always check custom interactive elements (not just standard `<button>` tags, but anything functioning as a button or link) for focus indicators and add ARIA labels to any icon-only controls.
+## 2026-07-15 - Native Form Validation for UX
+**Learning:** Silent failures in forms (due to JavaScript returning without feedback) are very frustrating for users. Leveraging native HTML5 validation (pattern and title) is a lightweight and effective way to provide immediate, accessible feedback.
+**Action:** Always check form submission handlers for silent failures (like 'if (invalid) return;') and complement them with HTML5 attributes like 'pattern', 'required', and 'title' for native browser UI feedback.

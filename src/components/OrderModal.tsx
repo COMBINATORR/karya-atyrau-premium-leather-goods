@@ -173,6 +173,8 @@ export default function OrderModal({ product, onClose, onWhatsAppClick }: OrderM
                   type="tel"
                   required
                   maxLength={20}
+                  pattern="^\+?[0-9\s\-\(\)]+$"
+                  title="Введите корректный номер телефона (допускаются цифры, пробелы, скобки и знак плюса)"
                   value={phone}
                   onChange={(e) => handlePhoneInput(e.target.value)}
                   placeholder="+7 (701) 555-55-55"
