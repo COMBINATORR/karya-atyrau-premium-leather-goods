@@ -1,36 +1,148 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-serif: "Playfair Display", Georgia, serif;
+  --font-serif: "Cormorant Garamond", Georgia, serif;
   --font-sans: "Inter", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", monospace;
-  
-  --color-karya-gold: #C5A059;
-  --color-karya-red: #A82025;
-  --color-karya-dark: #121212;
-  --color-karya-cream: #FBF9F6;
-  --color-karya-sand: #F5EFEB;
+  --font-mono: "DM Mono", monospace;
+
+  /* Luxury Brand Palette */
+  --color-ink:    #0C0A09;
+  --color-ink-80: #2A2520;
+  --color-gold:   #A16207;
+  --color-gold-lt:#C89B2E;
+  --color-ivory:  #FAFAF9;
+  --color-stone:  #E8E4DC;
+  --color-muted:  #78716C;
+  --color-red:    #991B1E;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   font-family: var(--font-sans);
-  background-color: var(--color-karya-cream);
-  color: var(--color-karya-dark);
+  background-color: var(--color-ivory);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom scrollbar for premium touch */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+/* ── Scrollbar ────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--color-stone); }
+::-webkit-scrollbar-thumb { background: var(--color-gold); }
+
+/* ── Selection ─────────────────────────────────────── */
+::selection {
+  background: rgba(161, 98, 7, 0.15);
+  color: var(--color-ink);
 }
-::-webkit-scrollbar-track {
-  background: #F5EFEB;
+
+/* ── Scroll-reveal animation ───────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-::-webkit-scrollbar-thumb {
-  background: #C5A059;
-  border-radius: 3px;
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
-::-webkit-scrollbar-thumb:hover {
-  background: #A82025;
+@keyframes slideRight {
+  from { opacity: 0; transform: translateX(-24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+@keyframes pulse-gold {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(161, 98, 7, 0.4); }
+  50%       { box-shadow: 0 0 0 8px rgba(161, 98, 7, 0); }
+}
+
+.animate-fade-up   { animation: fadeUp   0.7s cubic-bezier(.22,.68,0,1.2) forwards; }
+.animate-fade-in   { animation: fadeIn   0.6s ease forwards; }
+.animate-slide-right { animation: slideRight 0.6s ease forwards; }
+.animate-scale-in  { animation: scaleIn  0.5s ease forwards; }
+
+.anim-delay-100 { animation-delay: 0.1s; opacity: 0; }
+.anim-delay-200 { animation-delay: 0.2s; opacity: 0; }
+.anim-delay-300 { animation-delay: 0.3s; opacity: 0; }
+.anim-delay-400 { animation-delay: 0.4s; opacity: 0; }
+.anim-delay-500 { animation-delay: 0.5s; opacity: 0; }
+.anim-delay-600 { animation-delay: 0.6s; opacity: 0; }
+
+/* ── Gold divider line ─────────────────────────────── */
+.gold-line {
+  display: block;
+  width: 48px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #A16207, transparent);
+  margin: 0 auto;
+}
+
+/* ── Section label ─────────────────────────────────── */
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+}
+
+/* ── Gold shimmer button ───────────────────────────── */
+.btn-gold-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--color-gold) 0%,
+    #C89B2E 50%,
+    var(--color-gold) 100%
+  );
+  background-size: 200% auto;
+  animation: shimmer 2.5s linear infinite;
+}
+
+/* ── Pulse dot ─────────────────────────────────────── */
+.pulse-dot {
+  animation: pulse-gold 2s ease-in-out infinite;
+}
+
+/* ── Image hover zoom ──────────────────────────────── */
+.img-zoom { transition: transform 0.7s cubic-bezier(.25,.46,.45,.94); }
+.img-zoom:hover { transform: scale(1.06); }
+
+/* ── Glass card ────────────────────────────────────── */
+.glass-card {
+  background: rgba(255,255,255,0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.6);
+}
+
+/* ── Dark glass card ───────────────────────────────── */
+.glass-dark {
+  background: rgba(12,10,9,0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(161,98,7,0.2);
+}
+
+/* ── Noise texture overlay ─────────────────────────── */
+.noise-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  pointer-events: none;
 }

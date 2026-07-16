@@ -1,6 +1,7 @@
-import { useState, FormEvent, useId } from 'react';
+import { useState, FormEvent, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Product } from '../data';
-import { X, CheckCircle, Truck, CreditCard, ShoppingBag, Send } from 'lucide-react';
+import { X, CheckCircle, Send } from 'lucide-react';
 
 interface OrderModalProps {
   product: Product | null;
@@ -9,295 +10,247 @@ interface OrderModalProps {
 }
 
 export default function OrderModal({ product, onClose, onWhatsAppClick }: OrderModalProps) {
-  const deliveryLabelId = useId();
-  const paymentLabelId = useId();
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
-  const [deliveryType, setDeliveryType] = useState<'express' | 'pickup'>('express');
-  const [paymentType, setPaymentType] = useState<'kaspi_red' | 'kaspi_qr' | 'cash'>('kaspi_red');
+  const [delivery, setDelivery] = useState<'express' | 'pickup'>('express');
+  const [payment, setPayment] = useState<'kaspi_red' | 'kaspi_qr' | 'cash'>('kaspi_red');
   const [isSuccess, setIsSuccess] = useState(false);
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = ''; };
+  }, []);
 
   if (!product) return null;
 
-  const handlePhoneInput = (val: string) => {
-    // Basic formatting helper for KZ numbers (+7 7xx xxx xx xx)
-    setPhone(val);
-  };
-
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-
-    // Security: trim input and validate phone format to prevent malformed/malicious input
-    const trimmedName = name.trim();
-    const trimmedPhone = phone.trim();
-    const phoneRegex = /^\+?[0-9\s\-\(\)]+$/;
-
-    // Security: enforce input length limits programmatically (maxLength in HTML can be bypassed)
-    if (!trimmedName || trimmedName.length > 50) return;
-    if (!trimmedPhone || trimmedPhone.length > 20 || !phoneRegex.test(trimmedPhone)) {
-      return;
-    }
-
-    // Trigger WhatsApp notification for the boutique backend
-    const deliveryLabel = deliveryType === 'express' ? 'Экспресс-доставка курьером (1 час)' : 'Самовывоз из ТД Пассаж Насиха';
-    const paymentLabel = 
-      paymentType === 'kaspi_red' ? 'Kaspi Red / Рассрочка' : 
-      paymentType === 'kaspi_qr' ? 'Kaspi QR' : 'Наличные при получении';
-
-    const text = `Здравствуйте! Я оформил быстрый заказ на сайте KARYA Атырау.\n\n` +
-                 `📦 Товар: ${product.name} (Артикул: ${product.code})\n` +
-                 `💰 Цена: ${product.price.toLocaleString('ru-RU')} ₸\n` +
-                 `👤 Клиент: ${trimmedName}\n` +
-                 `📞 Телефон: ${trimmedPhone}\n` +
-                 `🚚 Доставка: ${deliveryLabel}\n` +
-                 `💳 Оплата: ${paymentLabel}\n\n` +
-                 `Пожалуйста, отправьте мне живое видео изделия и подтвердите доставку.`;
-
-    // Simulate database record save and show success view
+    const trimmedName = name.trim().slice(0, 50);
+    const trimmedPhone = phone.trim().slice(0, 20);
+    if (!trimmedName || !trimmedPhone) return;
+    const deliveryLabel = delivery === 'express' ? 'Экспресс-доставка (1 час)' : 'Самовывоз из ТД Пассаж Насиха';
+    const paymentLabel = payment === 'kaspi_red' ? 'Kaspi Red / Рассрочка 0-0-12' : payment === 'kaspi_qr' ? 'Kaspi QR' : 'Наличные';
+    const text = `Заказ с сайта KARYA Атырау\n\nТовар: ${product.name} (Арт. ${product.code})\nЦена: ${product.price.toLocaleString('ru-RU')} ₸\nКлиент: ${trimmedName}\nТелефон: ${trimmedPhone}\nДоставка: ${deliveryLabel}\nОплата: ${paymentLabel}\n\nПожалуйста, подтвердите заказ и пришлите видео изделия.`;
     setIsSuccess(true);
-    
-    // Automatically trigger WhatsApp callback after a brief delay
-    setTimeout(() => {
-      onWhatsAppClick(text);
-    }, 1200);
+    setTimeout(() => onWhatsAppClick(text), 1000);
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
-      {/* Modal Card */}
-      <div className="bg-[#FBF9F6] border border-[#C5A059]/30 shadow-2xl w-full max-w-lg relative">
-        
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 p-1.5 text-gray-400 hover:text-[#121212] transition-colors cursor-pointer z-10 focus-visible:ring-2 focus-visible:ring-[#C5A059]"
-          aria-label="Закрыть модальное окно"
+    <AnimatePresence>
+      <motion.div
+        key="overlay"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 z-50 flex items-center justify-center p-4"
+        style={{ backgroundColor: 'rgba(12,10,9,0.85)', backdropFilter: 'blur(6px)' }}
+        onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+      >
+        <motion.div
+          key="modal"
+          initial={{ opacity: 0, y: 24, scale: 0.97 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 16, scale: 0.98 }}
+          transition={{ duration: 0.3, ease: [0.22, 0.68, 0, 1.1] }}
+          className="bg-[#FAFAF9] w-full max-w-md relative shadow-2xl"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Быстрый заказ"
         >
-          <X size={20} />
-        </button>
-
-        {/* Modal Header */}
-        <div className="bg-[#121212] text-white p-5 text-left flex items-center gap-3">
-          <ShoppingBag className="text-[#C5A059] shrink-0" size={20} />
-          <div>
-            <h3 className="font-serif text-base uppercase tracking-widest text-[#C5A059] font-bold">
-              Быстрый заказ в 1 клик
-            </h3>
-            <p className="text-[10px] text-gray-400 font-mono">ФИРМЕННЫЙ БУТИК KARYA АТЫРАУ</p>
-          </div>
-        </div>
-
-        {/* Success Screen */}
-        {isSuccess ? (
-          <div className="p-8 text-center space-y-4">
-            <div className="w-16 h-16 bg-emerald-500/10 rounded-full flex items-center justify-center text-emerald-600 mx-auto animate-pulse">
-              <CheckCircle size={36} />
+          {/* Header */}
+          <div className="bg-[#0C0A09] px-6 py-5 flex items-center justify-between">
+            <div>
+              <span
+                className="block text-[#A16207]"
+                style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.25em', textTransform: 'uppercase' }}
+              >
+                Быстрый заказ
+              </span>
+              <span
+                className="text-white"
+                style={{ fontFamily: 'var(--font-serif)', fontSize: 16, fontWeight: 300 }}
+              >
+                KARYA Atyrau Boutique
+              </span>
             </div>
-            <h4 className="font-serif text-xl text-[#121212]">Ваш заказ успешно принят!</h4>
-            <p className="text-xs text-gray-600 leading-relaxed font-sans max-w-sm mx-auto">
-              Уважаемый(ая) <strong className="text-[#121212]">{name}</strong>, мы уже получили вашу заявку. Сейчас вы будете перенаправлены в мессенджер WhatsApp для подтверждения заказа. Менеджер отправит вам живое видео изделия с витрины и скоординирует экспресс-доставку.
-            </p>
-            <div className="p-4 bg-white border border-gray-100 font-mono text-left text-xs max-w-sm mx-auto divide-y divide-gray-100">
-              <div className="flex justify-between py-1.5">
-                <span className="text-gray-400">Изделие:</span>
-                <span className="text-gray-800 font-medium font-sans text-right">{product.name}</span>
-              </div>
-              <div className="flex justify-between py-1.5">
-                <span className="text-gray-400">Сумма заказа:</span>
-                <span className="text-[#A82025] font-bold">{product.price.toLocaleString('ru-RU')} ₸</span>
-              </div>
-              <div className="flex justify-between py-1.5">
-                <span className="text-gray-400">Способ оплаты:</span>
-                <span className="text-gray-800 font-sans">{paymentType === 'kaspi_red' ? 'Kaspi Red / Рассрочка' : 'Kaspi QR / Оплата'}</span>
-              </div>
-            </div>
-            <p className="text-[10px] text-gray-400 font-mono">Идет перенаправление в WhatsApp за 5 секунд...</p>
             <button
               onClick={onClose}
-              className="bg-[#121212] hover:bg-[#A82025] text-white py-2.5 px-6 text-xs font-mono tracking-wider uppercase transition-colors rounded-none cursor-pointer"
+              className="text-stone-500 hover:text-white transition-colors cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-[#A16207] p-1"
+              aria-label="Закрыть"
             >
-              Вернуться на сайт
+              <X size={18} />
             </button>
           </div>
-        ) : (
-          /* Form Screen */
-          <form onSubmit={handleSubmit} className="p-6 text-left space-y-5">
-            
-            {/* Product Brief Summary */}
-            <div className="flex items-center gap-4 bg-white p-3 border border-gray-100">
-              <div className="w-16 h-16 bg-gray-50 overflow-hidden shrink-0">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-full object-cover"
-                  referrerPolicy="no-referrer"
-                />
+
+          {isSuccess ? (
+            <div className="p-10 text-center">
+              <div className="w-14 h-14 rounded-full border border-emerald-500/30 flex items-center justify-center mx-auto mb-5">
+                <CheckCircle size={28} className="text-emerald-500" />
               </div>
+              <h4
+                className="text-[#0C0A09] mb-3"
+                style={{ fontFamily: 'var(--font-serif)', fontSize: 22, fontWeight: 300 }}
+              >
+                Заказ принят
+              </h4>
+              <p
+                className="text-[#78716C] mb-6"
+                style={{ fontFamily: 'var(--font-sans)', fontSize: 13, lineHeight: 1.65 }}
+              >
+                {name}, переадресуем вас в WhatsApp для подтверждения и получения видео изделия.
+              </p>
+              <button
+                onClick={onClose}
+                className="border border-[#0C0A09] text-[#0C0A09] hover:bg-[#0C0A09] hover:text-white px-6 py-2.5 transition-all duration-200 cursor-pointer focus:outline-none"
+                style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase' }}
+              >
+                Вернуться на сайт
+              </button>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="p-6 space-y-5" noValidate>
+
+              {/* Product preview */}
+              <div className="flex items-center gap-4 p-3 bg-white border border-[#E8E4DC]">
+                <div className="w-14 h-14 overflow-hidden shrink-0 bg-[#E8E4DC]">
+                  <img src={product.image} alt={product.name} className="w-full h-full object-cover" loading="lazy" />
+                </div>
+                <div className="min-w-0">
+                  <span
+                    className="block text-[#78716C] mb-0.5"
+                    style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.15em', textTransform: 'uppercase' }}
+                  >
+                    {product.code}
+                  </span>
+                  <p
+                    className="text-[#0C0A09] truncate"
+                    style={{ fontFamily: 'var(--font-sans)', fontSize: 12, fontWeight: 500 }}
+                  >
+                    {product.name}
+                  </p>
+                  <p
+                    className="text-[#A16207]"
+                    style={{ fontFamily: 'var(--font-mono)', fontSize: 14, fontWeight: 500 }}
+                  >
+                    {product.price.toLocaleString('ru-RU')} ₸
+                  </p>
+                </div>
+              </div>
+
+              {/* Fields */}
+              {[
+                { id: 'order-name', label: 'Имя *', value: name, setter: setName, placeholder: 'Марат И.', type: 'text', required: true, maxLength: 50 },
+                { id: 'order-phone', label: 'Телефон (WhatsApp) *', value: phone, setter: setPhone, placeholder: '+7 (701) 555-55-55', type: 'tel', required: true, maxLength: 20 },
+              ].map(({ id, label, value, setter, placeholder, type, required, maxLength }) => (
+                <div key={id}>
+                  <label
+                    htmlFor={id}
+                    className="block text-[#78716C] mb-1.5"
+                    style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase' }}
+                  >
+                    {label}
+                  </label>
+                  <input
+                    id={id}
+                    type={type}
+                    required={required}
+                    maxLength={maxLength}
+                    value={value}
+                    onChange={(e) => setter(e.target.value.slice(0, maxLength))}
+                    placeholder={placeholder}
+                    className="w-full border border-[#E8E4DC] bg-white text-[#0C0A09] placeholder-[#C4BEB8] py-3 px-4 focus:outline-none focus:border-[#A16207] focus-visible:ring-2 focus-visible:ring-[#A16207] transition-colors"
+                    style={{ fontFamily: 'var(--font-sans)', fontSize: 13 }}
+                  />
+                </div>
+              ))}
+
+              {/* Delivery */}
               <div>
-                <span className="text-[9px] font-mono text-gray-400 uppercase tracking-widest block">
-                  Артикул: {product.code}
+                <span
+                  id="order-delivery-label"
+                  className="block text-[#78716C] mb-2"
+                  style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase' }}
+                >
+                  Доставка
                 </span>
-                <h4 className="font-sans font-medium text-xs sm:text-sm text-[#121212] line-clamp-1">
-                  {product.name}
-                </h4>
-                <p className="text-sm font-mono font-bold text-[#A82025] mt-1">
-                  {product.price.toLocaleString('ru-RU')} ₸
-                </p>
+                <div className="grid grid-cols-2 gap-2" role="radiogroup" aria-labelledby="order-delivery-label">
+                  {[
+                    { val: 'express' as const, title: 'Курьер (1 час)', sub: 'Бесплатно по Атырау' },
+                    { val: 'pickup' as const, title: 'Самовывоз', sub: 'ТД Пассаж Насиха' },
+                  ].map(({ val, title, sub }) => (
+                    <button
+                      key={val}
+                      type="button"
+                      role="radio"
+                      aria-checked={delivery === val}
+                      onClick={() => setDelivery(val)}
+                      className={`py-3 px-3 text-left border transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A16207] ${
+                        delivery === val ? 'bg-[#0C0A09] border-[#0C0A09] text-white' : 'bg-white border-[#E8E4DC] hover:border-[#0C0A09]'
+                      }`}
+                    >
+                      <span style={{ fontFamily: 'var(--font-sans)', fontSize: 11, fontWeight: 500, display: 'block' }}>{title}</span>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.1em', display: 'block', opacity: 0.6 }}>{sub}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            {/* Inputs */}
-            <div className="space-y-3.5">
+              {/* Payment */}
               <div>
-                <label htmlFor="name" className="block text-[10px] font-mono uppercase tracking-wider text-gray-500 mb-1 font-semibold">
-                  Ваше имя *
-                </label>
-                <input
-                  id="name"
-                  type="text"
-                  required
-                  maxLength={50}
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Например, Марат И."
-                  className="w-full bg-white border border-gray-200 py-2.5 px-3 text-xs text-[#121212] focus:outline-none focus:border-[#C5A059] focus-visible:ring-2 focus-visible:ring-[#C5A059] font-sans"
-                />
+                <span
+                  id="order-payment-label"
+                  className="block text-[#78716C] mb-2"
+                  style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase' }}
+                >
+                  Оплата
+                </span>
+                <div className="grid grid-cols-3 gap-2" role="radiogroup" aria-labelledby="order-payment-label">
+                  {[
+                    { val: 'kaspi_red' as const, title: 'Kaspi Red', sub: '0–0–12' },
+                    { val: 'kaspi_qr' as const, title: 'Kaspi QR', sub: 'Быстро' },
+                    { val: 'cash' as const, title: 'Наличные', sub: 'При получении' },
+                  ].map(({ val, title, sub }) => (
+                    <button
+                      key={val}
+                      type="button"
+                      role="radio"
+                      aria-checked={payment === val}
+                      onClick={() => setPayment(val)}
+                      className={`py-3 px-2 text-center border transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A16207] ${
+                        payment === val ? 'bg-[#A16207] border-[#A16207] text-white' : 'bg-white border-[#E8E4DC] hover:border-[#A16207]'
+                      }`}
+                    >
+                      <span style={{ fontFamily: 'var(--font-sans)', fontSize: 10, fontWeight: 500, display: 'block' }}>{title}</span>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 7, letterSpacing: '0.08em', display: 'block', opacity: 0.7 }}>{sub}</span>
+                    </button>
+                  ))}
+                </div>
+                {payment === 'kaspi_red' && (
+                  <p className="text-[#A16207] mt-2" style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.08em' }}>
+                    ≈ {Math.round(product.price / 12).toLocaleString('ru-RU')} ₸/мес. на 12 месяцев
+                  </p>
+                )}
               </div>
 
-              <div>
-                <label htmlFor="phone" className="block text-[10px] font-mono uppercase tracking-wider text-gray-500 mb-1 font-semibold">
-                  Номер телефона (WhatsApp) *
-                </label>
-                <input
-                  id="phone"
-                  type="tel"
-                  required
-                  maxLength={20}
-                  value={phone}
-                  onChange={(e) => handlePhoneInput(e.target.value)}
-                  placeholder="+7 (701) 555-55-55"
-                  className="w-full bg-white border border-gray-200 py-2.5 px-3 text-xs text-[#121212] focus:outline-none focus:border-[#C5A059] focus-visible:ring-2 focus-visible:ring-[#C5A059] font-mono"
-                />
-              </div>
-            </div>
+              <button
+                type="submit"
+                className="w-full flex items-center justify-center gap-2 bg-[#0C0A09] hover:bg-[#991B1E] text-white py-4 transition-all duration-300 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A16207]"
+                style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase' }}
+              >
+                <Send size={13} />
+                Подтвердить в WhatsApp
+              </button>
 
-            {/* Delivery Toggle */}
-            <div role="radiogroup" aria-labelledby={deliveryLabelId}>
-              <span id={deliveryLabelId} className="block text-[10px] font-mono uppercase tracking-wider text-gray-500 mb-2 font-semibold flex items-center gap-1">
-                <Truck size={12} className="text-[#C5A059]" /> Способ доставки:
-              </span>
-              <div className="grid grid-cols-2 gap-3">
-                <button
-                  type="button"
-                  role="radio"
-                  aria-checked={deliveryType === 'express'}
-                  onClick={() => setDeliveryType('express')}
-                  className={`py-3 text-center border text-[10px] sm:text-xs font-sans font-medium transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C5A059] ${
-                    deliveryType === 'express'
-                      ? 'bg-[#121212] text-white border-[#121212] font-semibold'
-                      : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'
-                  }`}
-                >
-                  Экспресс курьер (1 час)
-                  <span className="block text-[8px] text-gray-400 font-mono mt-0.5">Бесплатно по Атырау</span>
-                </button>
-                <button
-                  type="button"
-                  role="radio"
-                  aria-checked={deliveryType === 'pickup'}
-                  onClick={() => setDeliveryType('pickup')}
-                  className={`py-3 text-center border text-[10px] sm:text-xs font-sans font-medium transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C5A059] ${
-                    deliveryType === 'pickup'
-                      ? 'bg-[#121212] text-white border-[#121212] font-semibold'
-                      : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'
-                  }`}
-                >
-                  Заберу сам (Самовывоз)
-                  <span className="block text-[8px] text-gray-400 font-mono mt-0.5">ТД Пассаж Насиха, 2 этаж</span>
-                </button>
-              </div>
-            </div>
-
-            {/* Payment Method */}
-            <div role="radiogroup" aria-labelledby={paymentLabelId}>
-              <span id={paymentLabelId} className="block text-[10px] font-mono uppercase tracking-wider text-gray-500 mb-2 font-semibold flex items-center gap-1">
-                <CreditCard size={12} className="text-[#C5A059]" /> Способ оплаты:
-              </span>
-              <div className="grid grid-cols-3 gap-2">
-                <button
-                  type="button"
-                  role="radio"
-                  aria-checked={paymentType === 'kaspi_red'}
-                  onClick={() => setPaymentType('kaspi_red')}
-                  className={`py-3 text-center border text-[9px] sm:text-xs font-sans font-medium transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C5A059] ${
-                    paymentType === 'kaspi_red'
-                      ? 'bg-[#A82025] text-white border-[#A82025] font-bold'
-                      : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'
-                  }`}
-                >
-                  Kaspi Red
-                  <span className="block text-[7px] text-gray-300 font-mono mt-0.5">Рассрочка 0-0-12</span>
-                </button>
-                <button
-                  type="button"
-                  role="radio"
-                  aria-checked={paymentType === 'kaspi_qr'}
-                  onClick={() => setPaymentType('kaspi_qr')}
-                  className={`py-3 text-center border text-[9px] sm:text-xs font-sans font-medium transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C5A059] ${
-                    paymentType === 'kaspi_qr'
-                      ? 'bg-[#121212] text-white border-[#121212] font-bold'
-                      : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'
-                  }`}
-                >
-                  Kaspi QR
-                  <span className="block text-[7px] text-gray-400 font-mono mt-0.5">Быстрая оплата</span>
-                </button>
-                <button
-                  type="button"
-                  role="radio"
-                  aria-checked={paymentType === 'cash'}
-                  onClick={() => setPaymentType('cash')}
-                  className={`py-3 text-center border text-[9px] sm:text-xs font-sans font-medium transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C5A059] ${
-                    paymentType === 'cash'
-                      ? 'bg-[#121212] text-white border-[#121212] font-bold'
-                      : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'
-                  }`}
-                >
-                  Наличными
-                  <span className="block text-[7px] text-gray-400 font-mono mt-0.5">Курьеру / в кассе</span>
-                </button>
-              </div>
-            </div>
-
-            {/* Price Note (Installment display) */}
-            {paymentType === 'kaspi_red' && (
-              <div className="p-3 bg-[#A82025]/5 border border-dashed border-[#A82025]/20 text-center">
-                <p className="text-[10px] text-gray-600 font-sans">
-                  В рассрочку на 12 месяцев платеж составит всего:{' '}
-                  <strong className="text-[#A82025] font-mono">
-                    {Math.round(product.price / 12).toLocaleString('ru-RU')} ₸ / мес.
-                  </strong>
-                </p>
-              </div>
-            )}
-
-            {/* Submit Button */}
-            <button
-              type="submit"
-              className="w-full bg-[#121212] hover:bg-[#A82025] text-white py-4 text-xs font-mono tracking-wider uppercase transition-colors duration-300 font-bold flex items-center justify-center gap-2 cursor-pointer"
-            >
-              <Send size={14} /> Подтвердить заказ в WhatsApp
-            </button>
-
-            {/* Safety Disclaimer */}
-            <p className="text-[9px] text-gray-400 text-center">
-              * Мы не передаем ваши данные третьим лицам. Отправка формы абсолютно бесплатна и не обязывает к покупке до оценки живого видео товара.
-            </p>
-
-          </form>
-        )}
-
-      </div>
-    </div>
+              <p
+                className="text-center text-[#78716C]"
+                style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.08em' }}
+              >
+                Данные не передаются третьим лицам
+              </p>
+            </form>
+          )}
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
   );
 }

@@ -1,240 +1,218 @@
 import { useState, useEffect } from 'react';
 import { PRODUCTS } from '../data';
-import { Calculator, Percent, Sparkles, AlertCircle } from 'lucide-react';
+import { Calculator } from 'lucide-react';
 
 interface KaspiCalculatorProps {
   onWhatsAppClick: (text: string) => void;
 }
 
+const formatPrice = (p: number) => p.toLocaleString('ru-RU') + ' ₸';
+
 export default function KaspiCalculator({ onWhatsAppClick }: KaspiCalculatorProps) {
-  const [amount, setAmount] = useState<number>(58000);
+  const [amount, setAmount] = useState(58000);
   const [term, setTerm] = useState<3 | 6 | 12>(12);
-  const [monthlyPayment, setMonthlyPayment] = useState<number>(0);
-  const [selectedProductId, setSelectedProductId] = useState<string>('');
+  const [selectedProductId, setSelectedProductId] = useState('');
+  const monthly = Math.round(amount / term);
 
-  // Re-calculate when amount or term changes
   useEffect(() => {
-    const payment = Math.round(amount / term);
-    setMonthlyPayment(payment);
-  }, [amount, term]);
-
-  const handleProductSelect = (productId: string) => {
-    setSelectedProductId(productId);
-    if (productId === '') return;
-    
-    const prod = PRODUCTS.find(p => p.id === productId);
-    if (prod) {
-      setAmount(prod.price);
+    if (selectedProductId) {
+      const p = PRODUCTS.find((x) => x.id === selectedProductId);
+      if (p) setAmount(p.price);
     }
-  };
-
-  const handleSliderChange = (val: number) => {
-    setSelectedProductId(''); // reset product select if manually sliding
-    setAmount(val);
-  };
-
-  const handleAmountInput = (val: string) => {
-    setSelectedProductId('');
-    const parsed = parseInt(val.replace(/\D/g, ''));
-    if (!isNaN(parsed)) {
-      setAmount(Math.min(Math.max(parsed, 5000), 500000));
-    } else {
-      setAmount(0);
-    }
-  };
-
-  const formatPrice = (price: number) => {
-    return price.toLocaleString('ru-RU') + ' ₸';
-  };
+  }, [selectedProductId]);
 
   const handleApply = () => {
-    const text = `Здравствуйте! Я рассчитал рассрочку на сайте KARYA Атырау. Сумма покупки: ${formatPrice(amount)}, срок: ${term} мес., ежемесячный платеж: ${formatPrice(monthlyPayment)}. Хочу оформить покупку в рассрочку!`;
-    onWhatsAppClick(text);
+    onWhatsAppClick(
+      `Здравствуйте! Рассчитал рассрочку на сайте KARYA. Сумма: ${formatPrice(amount)}, срок: ${term} мес., платёж: ${formatPrice(monthly)}/мес. Хочу оформить!`
+    );
   };
 
   return (
-    <section id="delivery" className="py-16 bg-[#FBF9F6] border-y border-[#F5EFEB]">
+    <section id="delivery" className="py-24 bg-[#FAFAF9] border-y border-[#E8E4DC]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          
-          {/* Text block: Conditions */}
-          <div className="lg:col-span-5 text-left">
-            <p className="text-[#A82025] font-mono text-xs uppercase tracking-widest mb-2 font-bold">Оплата и сервис</p>
-            <h2 className="font-serif text-3xl sm:text-4xl font-normal text-[#121212] mb-6">
-              Условия рассрочки <br />и экспресс-доставки
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
+
+          {/* Left — conditions */}
+          <div className="bg-[#F5F1EB] p-10 lg:p-14">
+            <span
+              className="block mb-4 text-[#A16207]"
+              style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.28em', textTransform: 'uppercase' }}
+            >
+              Оплата и доставка
+            </span>
+            <h2
+              className="text-[#0C0A09] mb-10"
+              style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(1.8rem, 3vw, 2.6rem)', fontWeight: 300, lineHeight: 1.2 }}
+            >
+              Удобно и без переплат
             </h2>
-            
-            <div className="space-y-6">
-              <div className="flex gap-4">
-                <div className="w-10 h-10 rounded-full bg-[#A82025]/10 flex items-center justify-center shrink-0 text-[#A82025]">
-                  <Percent size={18} />
-                </div>
-                <div>
-                  <h4 className="font-sans font-semibold text-sm text-[#121212] uppercase tracking-wider mb-1">
-                    Kaspi Red и Рассрочка 0-0-12
-                  </h4>
-                  <p className="text-xs text-gray-600 leading-relaxed">
-                    Платите частями без переплаты и скрытых процентов. Рассрочка оформляется моментально в приложении Kaspi.kz при получении товара. Доступны сроки на 3 месяца (Kaspi Red), а также 6 и 12 месяцев.
-                  </p>
-                </div>
-              </div>
 
-              <div className="flex gap-4">
-                <div className="w-10 h-10 rounded-full bg-[#C5A059]/10 flex items-center justify-center shrink-0 text-[#C5A059]">
-                  <span className="font-mono text-sm font-bold">1H</span>
+            <div className="space-y-8">
+              {[
+                {
+                  num: '01',
+                  title: 'Kaspi Red · 0–0–12',
+                  text: 'Рассрочка без процентов и скрытых комиссий. Оформляется мгновенно через Kaspi.kz при получении товара.',
+                },
+                {
+                  num: '02',
+                  title: 'Доставка за 1 час',
+                  text: 'Бесплатная курьерская доставка по Атырау в день заказа. Курьер привезёт 2 модели на выбор.',
+                },
+                {
+                  num: '03',
+                  title: 'Примерка перед оплатой',
+                  text: 'Вы осматриваете изделие, оцениваете фактуру кожи — и только потом оплачиваете.',
+                },
+              ].map((item) => (
+                <div key={item.num} className="flex gap-6">
+                  <span
+                    className="shrink-0 text-[#A16207] mt-0.5"
+                    style={{ fontFamily: 'var(--font-mono)', fontSize: 12, letterSpacing: '0.05em' }}
+                  >
+                    {item.num}
+                  </span>
+                  <div>
+                    <h4
+                      className="text-[#0C0A09] mb-1"
+                      style={{ fontFamily: 'var(--font-serif)', fontSize: 17, fontWeight: 400 }}
+                    >
+                      {item.title}
+                    </h4>
+                    <p
+                      className="text-[#78716C]"
+                      style={{ fontFamily: 'var(--font-sans)', fontSize: 13, lineHeight: 1.7 }}
+                    >
+                      {item.text}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-sans font-semibold text-sm text-[#121212] uppercase tracking-wider mb-1">
-                    Экспресс-доставка по Атырау в день заказа
-                  </h4>
-                  <p className="text-xs text-gray-600 leading-relaxed">
-                    Доставим курьером в течение 1 часа в любой район города (Авангард, Алмагуль, Привокзальный, Лесхоз, Жилгородок и др.). 
-                    Курьер может привезти <strong className="text-[#121212] font-semibold">2 модели на выбор</strong> для примерки и оценки текстуры кожи перед оплатой!
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex gap-4">
-                <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center shrink-0 text-emerald-600">
-                  <span className="font-mono text-xs font-bold">OK</span>
-                </div>
-                <div>
-                  <h4 className="font-sans font-semibold text-sm text-[#121212] uppercase tracking-wider mb-1">
-                    Бесплатная доставка
-                  </h4>
-                  <p className="text-xs text-gray-600 leading-relaxed">
-                    Доставка по городу Атырау абсолютно бесплатна при покупке любого изделия. Если вещь не подошла, вы оплачиваете только курьерские услуги (1000 ₸).
-                  </p>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
 
-          {/* Interactive Calculator Block */}
-          <div className="lg:col-span-7">
-            <div className="bg-[#121212] text-white p-6 sm:p-8 shadow-2xl relative border border-[#C5A059]/30">
-              
-              {/* Header inside calc */}
-              <div className="flex justify-between items-center pb-4 border-b border-white/10 mb-6">
-                <div className="flex items-center gap-2">
-                  <Calculator size={18} className="text-[#C5A059]" />
-                  <span className="font-mono text-xs uppercase tracking-widest text-[#C5A059] font-bold">
-                    Калькулятор рассрочки
-                  </span>
-                </div>
-                <span className="bg-[#A82025] text-white text-[9px] font-mono tracking-widest uppercase px-2 py-1">
-                  0% переплаты • 0% первый взнос
+          {/* Right — calculator */}
+          <div className="bg-[#0C0A09] p-10 lg:p-14">
+            <div className="flex items-center gap-3 mb-8">
+              <Calculator size={16} className="text-[#A16207]" />
+              <span
+                className="text-[#A16207]"
+                style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.25em', textTransform: 'uppercase' }}
+              >
+                Калькулятор рассрочки
+              </span>
+            </div>
+
+            {/* Product select */}
+            <div className="mb-7">
+              <label
+                className="block text-stone-500 mb-2"
+                style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase' }}
+              >
+                Изделие
+              </label>
+              <select
+                value={selectedProductId}
+                onChange={(e) => setSelectedProductId(e.target.value)}
+                className="w-full bg-white/5 border border-white/10 text-white py-3 px-4 focus:outline-none focus:border-[#A16207] transition-colors cursor-pointer"
+                style={{ fontFamily: 'var(--font-sans)', fontSize: 12 }}
+              >
+                <option value="" className="bg-[#0C0A09]">Ввести сумму вручную</option>
+                {PRODUCTS.map((p) => (
+                  <option key={p.id} value={p.id} className="bg-[#0C0A09]">
+                    {p.name} — {formatPrice(p.price)}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Amount slider */}
+            <div className="mb-7">
+              <div className="flex justify-between items-baseline mb-3">
+                <label
+                  className="text-stone-500"
+                  style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase' }}
+                >
+                  Сумма
+                </label>
+                <span
+                  className="text-[#C89B2E]"
+                  style={{ fontFamily: 'var(--font-mono)', fontSize: 18, fontWeight: 500 }}
+                >
+                  {formatPrice(amount)}
                 </span>
               </div>
-
-              {/* Product selector to ease calculations */}
-              <div className="mb-6">
-                <label htmlFor="product" className="block text-left text-[10px] font-mono uppercase tracking-wider text-gray-400 mb-2">
-                  Выберите изделие для расчета:
-                </label>
-                <select
-                  id="product"
-                  value={selectedProductId}
-                  onChange={(e) => handleProductSelect(e.target.value)}
-                  className="w-full bg-white/5 border border-white/20 text-white py-3 px-4 text-xs focus:outline-none focus:border-[#C5A059] font-sans"
-                >
-                  <option value="" className="bg-[#121212] text-gray-400">
-                    -- Введите сумму вручную или выберите из каталога --
-                  </option>
-                  {PRODUCTS.map(p => (
-                    <option key={p.id} value={p.id} className="bg-[#121212] text-white">
-                      {p.name} ({formatPrice(p.price)})
-                    </option>
-                  ))}
-                </select>
+              <input
+                type="range"
+                min="5000"
+                max="300000"
+                step="5000"
+                value={amount}
+                onChange={(e) => { setSelectedProductId(''); setAmount(Number(e.target.value)); }}
+                className="w-full h-0.5 bg-white/10 cursor-pointer accent-[#A16207]"
+                aria-label="Сумма рассрочки"
+              />
+              <div className="flex justify-between text-stone-600 mt-1.5" style={{ fontFamily: 'var(--font-mono)', fontSize: 9 }}>
+                <span>5 000 ₸</span><span>300 000 ₸</span>
               </div>
-
-              {/* Amount slider */}
-              <div className="mb-6">
-                <div className="flex justify-between items-baseline mb-2">
-                  <label htmlFor="amount-input" className="text-[10px] font-mono uppercase tracking-wider text-gray-400">
-                    Сумма покупки:
-                  </label>
-                  <input
-                    id="amount-input"
-                    type="text"
-                    maxLength={20}
-                    value={amount === 0 ? '' : amount.toLocaleString('ru-RU')}
-                    onChange={(e) => handleAmountInput(e.target.value)}
-                    className="bg-transparent text-right font-mono font-bold text-lg text-[#C5A059] focus:outline-none w-32 border-b border-white/10 pb-0.5"
-                    placeholder="0"
-                  />
-                  <span className="text-[#C5A059] font-mono font-bold text-lg ml-1">₸</span>
-                </div>
-                
-                <input
-                  type="range"
-                  min="5000"
-                  max="300000"
-                  step="5000"
-                  value={amount}
-                  onChange={(e) => handleSliderChange(Number(e.target.value))}
-                  className="w-full accent-[#A82025] h-1 bg-white/10 rounded-lg cursor-pointer"
-                />
-                <div className="flex justify-between text-[9px] font-mono text-gray-500 mt-1">
-                  <span>5 000 ₸</span>
-                  <span>150 000 ₸</span>
-                  <span>300 000 ₸</span>
-                </div>
-              </div>
-
-              {/* Term selection */}
-              <div className="mb-8">
-                <label className="block text-left text-[10px] font-mono uppercase tracking-wider text-gray-400 mb-3">
-                  Срок рассрочки:
-                </label>
-                <div className="grid grid-cols-3 gap-3">
-                  {[3, 6, 12].map((t) => (
-                    <button
-                      key={t}
-                      onClick={() => setTerm(t as any)}
-                      className={`py-3.5 text-xs font-mono border transition-all cursor-pointer ${
-                        term === t
-                          ? 'bg-[#A82025] border-[#A82025] text-white font-bold'
-                          : 'bg-white/5 border-white/10 text-gray-300 hover:border-white/30'
-                      }`}
-                    >
-                      {t} месяцев
-                      {t === 3 && <span className="block text-[8px] text-red-200 mt-0.5 font-normal">Kaspi Red</span>}
-                      {t > 3 && <span className="block text-[8px] text-gray-400 mt-0.5 font-normal">Рассрочка</span>}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Monthly payment display block */}
-              <div className="bg-white/5 border border-white/10 p-5 mb-6 text-center">
-                <p className="text-[10px] font-mono uppercase tracking-widest text-gray-400">
-                  Ежемесячный платеж в рассрочку:
-                </p>
-                <p className="text-2xl sm:text-3xl font-mono font-bold text-[#C5A059] mt-2 tracking-tight">
-                  {formatPrice(monthlyPayment)}
-                </p>
-                <div className="flex items-center justify-center gap-1 text-[9px] font-mono text-emerald-400 mt-1.5 uppercase tracking-widest">
-                  <Sparkles size={10} /> 0% Первоначальный взнос • Без комиссий
-                </div>
-              </div>
-
-              {/* Apply button */}
-              <button
-                onClick={handleApply}
-                className="w-full bg-[#A82025] hover:bg-white hover:text-[#121212] text-white py-4 text-xs font-mono tracking-wider uppercase transition-all duration-300 font-bold border-2 border-transparent hover:border-white cursor-pointer"
-              >
-                Оформить покупку в рассрочку
-              </button>
-
-              {/* Note */}
-              <p className="text-[10px] text-gray-500 font-sans text-center mt-3">
-                * Оформление происходит удаленно за 1 минуту через официальное приложение Kaspi Pay. Мы отправим вам счет на оплату в WhatsApp.
-              </p>
-
             </div>
+
+            {/* Term */}
+            <div className="mb-8">
+              <label
+                className="block text-stone-500 mb-3"
+                style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase' }}
+              >
+                Срок
+              </label>
+              <div className="grid grid-cols-3 gap-2">
+                {([3, 6, 12] as const).map((t) => (
+                  <button
+                    key={t}
+                    onClick={() => setTerm(t)}
+                    className={`py-3 transition-all duration-200 cursor-pointer focus:outline-none ${
+                      term === t
+                        ? 'bg-[#A16207] text-white'
+                        : 'border border-white/10 text-stone-400 hover:border-[#A16207] hover:text-[#C89B2E]'
+                    }`}
+                    style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.1em' }}
+                    aria-pressed={term === t}
+                  >
+                    {t} мес.{t === 3 ? '\nKaspi Red' : ''}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Result */}
+            <div className="border border-[#A16207]/30 p-6 mb-7 text-center">
+              <p
+                className="text-stone-500 mb-2"
+                style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase' }}
+              >
+                Ежемесячный платёж
+              </p>
+              <p
+                className="text-[#C89B2E]"
+                style={{ fontFamily: 'var(--font-mono)', fontSize: 32, fontWeight: 500 }}
+              >
+                {formatPrice(monthly)}
+              </p>
+              <p
+                className="text-emerald-500 mt-1"
+                style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.15em', textTransform: 'uppercase' }}
+              >
+                0% переплаты · 0% первый взнос
+              </p>
+            </div>
+
+            <button
+              onClick={handleApply}
+              className="w-full bg-[#A16207] hover:bg-[#C89B2E] text-white py-4 transition-all duration-300 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase' }}
+            >
+              Оформить в рассрочку
+            </button>
           </div>
 
         </div>
