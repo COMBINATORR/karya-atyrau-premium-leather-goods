@@ -87,6 +87,8 @@ export default function Header({ onNavClick, onWhatsAppClick }: HeaderProps) {
           onClick={() => setIsOpen(!isOpen)}
           className="md:hidden p-2 text-[#121212] hover:text-[#A82025] transition-colors"
           aria-label="Toggle Menu"
+          aria-expanded={isOpen}
+          aria-controls="mobile-menu"
         >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -96,6 +98,7 @@ export default function Header({ onNavClick, onWhatsAppClick }: HeaderProps) {
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            id="mobile-menu"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
