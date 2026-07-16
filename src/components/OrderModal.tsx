@@ -18,8 +18,15 @@ export default function OrderModal({ product, onClose, onWhatsAppClick }: OrderM
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
-    return () => { document.body.style.overflow = ''; };
-  }, []);
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [onClose]);
 
   if (!product) return null;
 
@@ -27,7 +34,9 @@ export default function OrderModal({ product, onClose, onWhatsAppClick }: OrderM
     e.preventDefault();
     const trimmedName = name.trim().slice(0, 50);
     const trimmedPhone = phone.trim().slice(0, 20);
-    if (!trimmedName || !trimmedPhone) return;
+    // Client-side phone shape check (HTML pattern can be bypassed)
+    const phoneOk = /^\+?[0-9\s\-()]+$/.test(trimmedPhone);
+    if (!trimmedName || !trimmedPhone || !phoneOk) return;
     const deliveryLabel = delivery === 'express' ? 'Экспресс-доставка (1 час)' : 'Самовывоз из ТД Пассаж Насиха';
     const paymentLabel = payment === 'kaspi_red' ? 'Kaspi Red / Рассрочка 0-0-12' : payment === 'kaspi_qr' ? 'Kaspi QR' : 'Наличные';
     const text = `Заказ с сайта KARYA Атырау\n\nТовар: ${product.name} (Арт. ${product.code})\nЦена: ${product.price.toLocaleString('ru-RU')} ₸\nКлиент: ${trimmedName}\nТелефон: ${trimmedPhone}\nДоставка: ${deliveryLabel}\nОплата: ${paymentLabel}\n\nПожалуйста, подтвердите заказ и пришлите видео изделия.`;
@@ -55,12 +64,14 @@ export default function OrderModal({ product, onClose, onWhatsAppClick }: OrderM
           className="bg-[#FAFAF9] w-full max-w-md relative shadow-2xl"
           role="dialog"
           aria-modal="true"
-          aria-label="Быстрый заказ"
+          aria-labelledby="order-modal-title"
+          onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
           <div className="bg-[#0C0A09] px-6 py-5 flex items-center justify-between">
             <div>
               <span
+                id="order-modal-title"
                 className="block text-[#A16207]"
                 style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.25em', textTransform: 'uppercase' }}
               >
@@ -158,6 +169,12 @@ export default function OrderModal({ product, onClose, onWhatsAppClick }: OrderM
                     value={value}
                     onChange={(e) => setter(e.target.value.slice(0, maxLength))}
                     placeholder={placeholder}
+                    {...(type === 'tel'
+                      ? {
+                          pattern: String.raw`^\+?[0-9\s\-()]+$`,
+                          title: 'Введите корректный номер телефона (цифры, пробелы, скобки, +)',
+                        }
+                      : {})}
                     className="w-full border border-[#E8E4DC] bg-white text-[#0C0A09] placeholder-[#C4BEB8] py-3 px-4 focus:outline-none focus:border-[#A16207] focus-visible:ring-2 focus-visible:ring-[#A16207] transition-colors"
                     style={{ fontFamily: 'var(--font-sans)', fontSize: 13 }}
                   />

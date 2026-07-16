@@ -158,25 +158,28 @@ export default function KaspiCalculator({ onWhatsAppClick }: KaspiCalculatorProp
             </div>
 
             {/* Term */}
-            <div className="mb-8">
-              <label
+            <div className="mb-8" role="radiogroup" aria-labelledby="kaspi-term-label">
+              <span
+                id="kaspi-term-label"
                 className="block text-stone-500 mb-3"
                 style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase' }}
               >
                 Срок
-              </label>
+              </span>
               <div className="grid grid-cols-3 gap-2">
                 {([3, 6, 12] as const).map((t) => (
                   <button
                     key={t}
+                    type="button"
+                    role="radio"
+                    aria-checked={term === t}
                     onClick={() => setTerm(t)}
-                    className={`py-3 transition-all duration-200 cursor-pointer focus:outline-none ${
+                    className={`py-3 transition-all duration-200 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A16207] ${
                       term === t
                         ? 'bg-[#A16207] text-white'
                         : 'border border-white/10 text-stone-400 hover:border-[#A16207] hover:text-[#C89B2E]'
                     }`}
                     style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.1em' }}
-                    aria-pressed={term === t}
                   >
                     {t} мес.{t === 3 ? '\nKaspi Red' : ''}
                   </button>

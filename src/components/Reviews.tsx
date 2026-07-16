@@ -196,23 +196,25 @@ export default function Reviews() {
 
                 {/* Star rating */}
                 <div>
-                  <label
+                  <span
+                    id="rating-label"
                     className="block text-stone-500 mb-2"
                     style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase' }}
                   >
                     Оценка *
-                  </label>
-                  <div className="flex gap-2" role="group" aria-label="Выберите оценку">
+                  </span>
+                  <div className="flex gap-2" role="radiogroup" aria-labelledby="rating-label">
                     {[1, 2, 3, 4, 5].map((star) => (
                       <button
                         key={star}
                         type="button"
+                        role="radio"
+                        aria-checked={star === rating}
                         onClick={() => setRating(star)}
                         onMouseEnter={() => setHoveredStar(star)}
                         onMouseLeave={() => setHoveredStar(0)}
-                        className="cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-[#A16207]"
-                        aria-label={`${star} звезд`}
-                        aria-pressed={star <= rating}
+                        className="cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A16207] rounded-sm"
+                        aria-label={`Оценка ${star} из 5`}
                       >
                         <Star
                           size={22}
@@ -228,13 +230,23 @@ export default function Reviews() {
                 </div>
 
                 <div>
-                  <label
-                    htmlFor="review-text"
-                    className="block text-stone-500 mb-1.5"
-                    style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase' }}
-                  >
-                    Текст отзыва *
-                  </label>
+                  <div className="flex justify-between items-end mb-1.5">
+                    <label
+                      htmlFor="review-text"
+                      className="block text-stone-500"
+                      style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase' }}
+                    >
+                      Текст отзыва *
+                    </label>
+                    <span
+                      id="review-text-char-count"
+                      aria-live="polite"
+                      className={text.length >= 950 ? 'text-red-400' : 'text-stone-600'}
+                      style={{ fontFamily: 'var(--font-mono)', fontSize: 9 }}
+                    >
+                      {text.length} / 1000
+                    </span>
+                  </div>
                   <textarea
                     id="review-text"
                     required
@@ -242,6 +254,7 @@ export default function Reviews() {
                     maxLength={1000}
                     value={text}
                     onChange={(e) => setText(e.target.value.slice(0, 1000))}
+                    aria-describedby="review-text-char-count"
                     placeholder="Расскажите о качестве изделия, сервисе, доставке..."
                     className="w-full bg-white/5 border border-white/10 text-white placeholder-stone-600 py-3 px-4 focus:outline-none focus:border-[#A16207] focus-visible:ring-2 focus-visible:ring-[#A16207] transition-colors resize-none"
                     style={{ fontFamily: 'var(--font-sans)', fontSize: 13 }}
