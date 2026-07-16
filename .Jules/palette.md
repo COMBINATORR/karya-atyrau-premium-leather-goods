@@ -16,3 +16,6 @@
 ## 2025-03-05 - Focus Visibility and Icon Buttons
 **Learning:** Found several interactive elements (like custom map landmarks and social icons) that lacked keyboard focus indicators and ARIA labels. Using `focus-visible` classes with brand colors (e.g., `focus-visible:ring-[#C5A059]`) is a clean way to add accessibility without impacting mouse users.
 **Action:** Always check custom interactive elements (not just standard `<button>` tags, but anything functioning as a button or link) for focus indicators and add ARIA labels to any icon-only controls.
+## 2025-07-16 - Add aria-expanded and aria-controls to mobile menu
+**Learning:** React state-driven toggle buttons (like mobile menus) often omit standard ARIA attributes (`aria-expanded`, `aria-controls`) because visual state is sufficient for sighted users. This causes screen readers to announce them as generic buttons without indicating their function or current state.
+**Action:** Always verify that interactive disclosure elements (menus, accordions, dialogs) have the appropriate `aria-expanded` reflecting their state and `aria-controls` pointing to their respective containers.
