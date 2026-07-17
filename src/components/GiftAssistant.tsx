@@ -133,7 +133,7 @@ export default function GiftAssistant({ onOrderClick, onWhatsAppClick }: GiftAss
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto">
                 <button
                   onClick={() => handleTargetSelect('her')}
-                  className="border border-[#F5EFEB] hover:border-[#C5A059] hover:bg-[#FBF9F6] p-6 transition-all text-center flex flex-col items-center gap-3 cursor-pointer group"
+                  className="focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C5A059] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F5EFEB] border border-[#F5EFEB] hover:border-[#C5A059] hover:bg-[#FBF9F6] p-6 transition-all text-center flex flex-col items-center gap-3 cursor-pointer group"
                 >
                   <div className="w-12 h-12 bg-[#F5EFEB] group-hover:bg-[#C5A059]/10 rounded-full flex items-center justify-center text-[#C5A059]">
                     <Sparkles size={20} />
@@ -143,7 +143,7 @@ export default function GiftAssistant({ onOrderClick, onWhatsAppClick }: GiftAss
                 </button>
                 <button
                   onClick={() => handleTargetSelect('him')}
-                  className="border border-[#F5EFEB] hover:border-[#C5A059] hover:bg-[#FBF9F6] p-6 transition-all text-center flex flex-col items-center gap-3 cursor-pointer group"
+                  className="focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C5A059] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F5EFEB] border border-[#F5EFEB] hover:border-[#C5A059] hover:bg-[#FBF9F6] p-6 transition-all text-center flex flex-col items-center gap-3 cursor-pointer group"
                 >
                   <div className="w-12 h-12 bg-[#F5EFEB] group-hover:bg-[#C5A059]/10 rounded-full flex items-center justify-center text-[#C5A059]">
                     <Gift size={20} />
@@ -153,7 +153,7 @@ export default function GiftAssistant({ onOrderClick, onWhatsAppClick }: GiftAss
                 </button>
                 <button
                   onClick={() => handleTargetSelect('boss')}
-                  className="border border-[#F5EFEB] hover:border-[#C5A059] hover:bg-[#FBF9F6] p-6 transition-all text-center flex flex-col items-center gap-3 cursor-pointer group"
+                  className="focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C5A059] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F5EFEB] border border-[#F5EFEB] hover:border-[#C5A059] hover:bg-[#FBF9F6] p-6 transition-all text-center flex flex-col items-center gap-3 cursor-pointer group"
                 >
                   <div className="w-12 h-12 bg-[#F5EFEB] group-hover:bg-[#C5A059]/10 rounded-full flex items-center justify-center text-[#C5A059]">
                     <span className="font-mono text-sm font-bold">★</span>
@@ -174,26 +174,26 @@ export default function GiftAssistant({ onOrderClick, onWhatsAppClick }: GiftAss
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-xl mx-auto">
                 <button
                   onClick={() => handleBudgetSelect('low')}
-                  className="border border-[#F5EFEB] hover:border-[#C5A059] hover:bg-[#FBF9F6] py-5 px-4 transition-all text-center font-sans text-sm font-medium text-[#121212] cursor-pointer"
+                  className="focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C5A059] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F5EFEB] border border-[#F5EFEB] hover:border-[#C5A059] hover:bg-[#FBF9F6] py-5 px-4 transition-all text-center font-sans text-sm font-medium text-[#121212] cursor-pointer"
                 >
                   До 30 000 ₸
                 </button>
                 <button
                   onClick={() => handleBudgetSelect('mid')}
-                  className="border border-[#F5EFEB] hover:border-[#C5A059] hover:bg-[#FBF9F6] py-5 px-4 transition-all text-center font-sans text-sm font-medium text-[#121212] cursor-pointer"
+                  className="focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C5A059] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F5EFEB] border border-[#F5EFEB] hover:border-[#C5A059] hover:bg-[#FBF9F6] py-5 px-4 transition-all text-center font-sans text-sm font-medium text-[#121212] cursor-pointer"
                 >
                   До 70 000 ₸
                 </button>
                 <button
                   onClick={() => handleBudgetSelect('high')}
-                  className="border border-[#F5EFEB] hover:border-[#C5A059] hover:bg-[#FBF9F6] py-5 px-4 transition-all text-center font-sans text-sm font-medium text-[#121212] cursor-pointer"
+                  className="focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C5A059] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F5EFEB] border border-[#F5EFEB] hover:border-[#C5A059] hover:bg-[#FBF9F6] py-5 px-4 transition-all text-center font-sans text-sm font-medium text-[#121212] cursor-pointer"
                 >
                   Премиум (70 000+ ₸)
                 </button>
               </div>
               <button
                 onClick={() => setStep(1)}
-                className="mt-8 text-xs font-mono text-gray-400 hover:text-[#121212] flex items-center gap-1 mx-auto cursor-pointer"
+                className="focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C5A059] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F5EFEB] mt-8 text-xs font-mono text-gray-400 hover:text-[#121212] flex items-center gap-1 mx-auto cursor-pointer"
               >
                 <RotateCcw size={12} /> Вернуться на шаг назад
               </button>
@@ -209,26 +209,26 @@ export default function GiftAssistant({ onOrderClick, onWhatsAppClick }: GiftAss
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-xl mx-auto">
                 <button
                   onClick={() => handleStyleSelect('classic')}
-                  className="border border-[#F5EFEB] hover:border-[#C5A059] hover:bg-[#FBF9F6] py-5 px-4 transition-all text-center font-sans text-sm font-medium text-[#121212] cursor-pointer"
+                  className="focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C5A059] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F5EFEB] border border-[#F5EFEB] hover:border-[#C5A059] hover:bg-[#FBF9F6] py-5 px-4 transition-all text-center font-sans text-sm font-medium text-[#121212] cursor-pointer"
                 >
                   Строгая классика
                 </button>
                 <button
                   onClick={() => handleStyleSelect('casual')}
-                  className="border border-[#F5EFEB] hover:border-[#C5A059] hover:bg-[#FBF9F6] py-5 px-4 transition-all text-center font-sans text-sm font-medium text-[#121212] cursor-pointer"
+                  className="focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C5A059] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F5EFEB] border border-[#F5EFEB] hover:border-[#C5A059] hover:bg-[#FBF9F6] py-5 px-4 transition-all text-center font-sans text-sm font-medium text-[#121212] cursor-pointer"
                 >
                   Повседневный кэжуал
                 </button>
                 <button
                   onClick={() => handleStyleSelect('premium')}
-                  className="border border-[#F5EFEB] hover:border-[#C5A059] hover:bg-[#FBF9F6] py-5 px-4 transition-all text-center font-sans text-sm font-medium text-[#121212] cursor-pointer"
+                  className="focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C5A059] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F5EFEB] border border-[#F5EFEB] hover:border-[#C5A059] hover:bg-[#FBF9F6] py-5 px-4 transition-all text-center font-sans text-sm font-medium text-[#121212] cursor-pointer"
                 >
                   Эксклюзивный люкс
                 </button>
               </div>
               <button
                 onClick={() => setStep(2)}
-                className="mt-8 text-xs font-mono text-gray-400 hover:text-[#121212] flex items-center gap-1 mx-auto cursor-pointer"
+                className="focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C5A059] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F5EFEB] mt-8 text-xs font-mono text-gray-400 hover:text-[#121212] flex items-center gap-1 mx-auto cursor-pointer"
               >
                 <RotateCcw size={12} /> Вернуться на шаг назад
               </button>
@@ -296,13 +296,13 @@ export default function GiftAssistant({ onOrderClick, onWhatsAppClick }: GiftAss
                   <div className="flex flex-col sm:flex-row gap-3">
                     <button
                       onClick={handleOrderSet}
-                      className="bg-[#A82025] hover:bg-[#121212] text-white py-3 px-6 text-xs font-mono tracking-wider transition-colors duration-300 rounded-none uppercase flex-1"
+                      className="focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C5A059] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F5EFEB] bg-[#A82025] hover:bg-[#121212] text-white py-3 px-6 text-xs font-mono tracking-wider transition-colors duration-300 rounded-none uppercase flex-1"
                     >
                       Заказать готовый сет
                     </button>
                     <button
                       onClick={handleWhatsAppConsult}
-                      className="bg-transparent border border-gray-300 hover:border-[#25D366] text-gray-600 hover:text-[#25D366] py-3 px-6 text-xs font-mono tracking-wider transition-colors duration-300 rounded-none uppercase flex items-center justify-center gap-1.5"
+                      className="focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C5A059] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F5EFEB] bg-transparent border border-gray-300 hover:border-[#25D366] text-gray-600 hover:text-[#25D366] py-3 px-6 text-xs font-mono tracking-wider transition-colors duration-300 rounded-none uppercase flex items-center justify-center gap-1.5"
                     >
                       <Smartphone size={14} /> Консультация
                     </button>
@@ -313,7 +313,7 @@ export default function GiftAssistant({ onOrderClick, onWhatsAppClick }: GiftAss
               <div className="mt-8 pt-4 border-t border-gray-100 flex justify-center sm:justify-start">
                 <button
                   onClick={startQuiz}
-                  className="text-xs font-mono text-gray-400 hover:text-[#121212] flex items-center gap-1 cursor-pointer"
+                  className="focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C5A059] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F5EFEB] text-xs font-mono text-gray-400 hover:text-[#121212] flex items-center gap-1 cursor-pointer"
                 >
                   <RotateCcw size={12} /> Начать подбор заново
                 </button>
